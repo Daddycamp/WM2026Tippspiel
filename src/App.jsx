@@ -1,4 +1,19 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set, onValue, off } from "firebase/database";
+
+/* ── Firebase Config ── */
+const firebaseApp = initializeApp({
+  apiKey: "AIzaSyDb9mNxK_OKALiWmXc86Bz_DV13yW5eWrE",
+  authDomain: "wm-tippspiel-1985a.firebaseapp.com",
+  databaseURL: "https://wm-tippspiel-1985a-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "wm-tippspiel-1985a",
+  storageBucket: "wm-tippspiel-1985a.firebasestorage.app",
+  messagingSenderId: "240916167247",
+  appId: "1:240916167247:web:3e80343e8fc24ad853483a",
+});
+const db = getDatabase(firebaseApp);
+const dbRef = ref(db, "tippspiel");
 
 function useWidth() {
   const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 400);
@@ -135,7 +150,6 @@ const MAX_JOKERS = 3;
 const BONUS = { champion: 10, boot: 8, group: 5 };
 const COLORS = ["#c084e0", "#e06050", "#50b8e0", "#6dd468", "#c8a84e", "#e09050", "#50e0b0", "#e07098"];
 const STORE_KEY = "wm26tip6";
-const STORE_FB = "wm26fb6";
 const STORE_RESULTS = "wm26res";
 const MATCH_DAYS = [...new Set(MATCHES.map(m => m.dl))].sort();
 
@@ -250,12 +264,11 @@ export default function App() {
   const [cmpId, setCmpId] = useState(null);
   const [showAdd, setShowAdd] = useState(false);
   const [delId, setDelId] = useState(null);
-  const [fbUrl, setFbUrl] = useState("");
-  const [fbInput, setFbInput] = useState("");
-  const [syncMsg, setSyncMsg] = useState("");
+  const [connected, setConnected] = useState(false);
 
   const [liveResults, setLiveResults] = useState({});
   const [lastUpdate, setLastUpdate] = useState(null);
+  const skipSync = useRef(false);
 
   useEffect(() => {
     function applyResults(results) {
@@ -266,9 +279,9 @@ export default function App() {
     }
     async function loadResults() {
       try {
-        var cached = { value: localStorage.getItem(STORE_RESULTS) };
-        if (cached && cached.value) {
-          var parsed = JSON.parse(cached.value);
+        var cached = localStorage.getItem(STORE_RESULTS);
+        if (cached) {
+          var parsed = JSON.parse(cached);
           if (parsed.results) { applyResults(parsed.results); setLiveResults(parsed.results); }
           if (parsed.ts) setLastUpdate(new Date(parsed.ts));
         }
@@ -285,67 +298,60 @@ export default function App() {
     loadResults();
   }, []);
 
+  /* ── Firebase real-time listener ── */
   useEffect(() => {
-    async function init() {
-      try {
-        const fbR = { value: localStorage.getItem(STORE_FB) };
-        if (fbR && fbR.value) {
-          setFbUrl(fbR.value);
-          setFbInput(fbR.value);
-          try {
-            const r = await fetch(fbR.value + "/.json");
-            if (r.ok) {
-              const d = await r.json();
-              if (d && d.players) { setData(d); return; }
-            }
-          } catch (e) { /* firebase not reachable */ }
-        }
-      } catch (e) { /* no fb url */ }
-      try {
-        const r = { value: localStorage.getItem(STORE_KEY) };
-        if (r && r.value) { setData(JSON.parse(r.value)); return; }
-      } catch (e) { /* no local data */ }
-      setData(JSON.parse(JSON.stringify(DEFAULT_DATA)));
-    }
-    init();
+    // Load local cache first for instant display
+    try {
+      const cached = localStorage.getItem(STORE_KEY);
+      if (cached) setData(JSON.parse(cached));
+    } catch (e) {}
+
+    // Subscribe to Firebase - updates arrive automatically
+    const unsub = onValue(dbRef, (snapshot) => {
+      const val = snapshot.val();
+      if (val && val.players) {
+        skipSync.current = true;
+        // Keep local aid (each device picks their own player)
+        const localAid = localStorage.getItem("wm26aid");
+        setData({ ...val, aid: localAid || val.aid || "stefan" });
+        try { localStorage.setItem(STORE_KEY, JSON.stringify(val)); } catch (e) {}
+        setConnected(true);
+        // Reset skip flag after React processes the state update
+        setTimeout(() => { skipSync.current = false; }, 100);
+      } else if (!data) {
+        // No data in Firebase yet — push defaults
+        const def = JSON.parse(JSON.stringify(DEFAULT_DATA));
+        set(dbRef, def);
+        setData(def);
+      }
+      setConnected(true);
+    }, (error) => {
+      setConnected(false);
+      // If Firebase fails, use local data or defaults
+      if (!data) {
+        try {
+          const cached = localStorage.getItem(STORE_KEY);
+          if (cached) { setData(JSON.parse(cached)); return; }
+        } catch (e) {}
+        setData(JSON.parse(JSON.stringify(DEFAULT_DATA)));
+      }
+    });
+
+    return () => off(dbRef);
   }, []);
 
-  const save = useCallback(async (d) => {
+  const save = useCallback((d) => {
     setData(d);
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); } catch (e) {}
-    if (fbUrl) {
-      try { await fetch(fbUrl + "/.json", { method: "PUT", body: JSON.stringify(d) }); } catch (e) {}
-    }
-  }, [fbUrl]);
-
-  const syncPull = useCallback(async () => {
-    if (!fbUrl) return;
-    setSyncMsg("Laden...");
+    // Save active player choice locally (per device)
     try {
-      const r = await fetch(fbUrl + "/.json");
-      if (r.ok) {
-        const d = await r.json();
-        if (d && d.players) {
-          setData(d);
-          try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); } catch (e) {}
-          setSyncMsg("Synchronisiert!");
-        } else { setSyncMsg("Keine Daten gefunden"); }
-      } else { setSyncMsg("Fehler: " + r.status); }
-    } catch (e) { setSyncMsg("Verbindungsfehler"); }
-    setTimeout(() => setSyncMsg(""), 3000);
-  }, [fbUrl]);
-
-  const saveFbConfig = useCallback(async () => {
-    setFbUrl(fbInput);
-    try { localStorage.setItem(STORE_FB, fbInput); } catch (e) {}
-    if (fbInput && data) {
-      try {
-        await fetch(fbInput + "/.json", { method: "PUT", body: JSON.stringify(data) });
-        setSyncMsg("Verbunden!");
-      } catch (e) { setSyncMsg("Fehler beim Hochladen"); }
-      setTimeout(() => setSyncMsg(""), 3000);
+      localStorage.setItem("wm26aid", d.aid);
+      localStorage.setItem(STORE_KEY, JSON.stringify(d));
+    } catch (e) {}
+    // Push to Firebase (unless this save was triggered by Firebase listener)
+    if (!skipSync.current) {
+      set(dbRef, { players: d.players, aid: d.aid }).catch(() => {});
     }
-  }, [fbInput, data]);
+  }, []);
 
   const act = useMemo(() => {
     if (!data) return null;
@@ -549,7 +555,8 @@ export default function App() {
               <span style={{ fontSize: wide ? 22 : 18 }}>🇨🇦</span>
               <span style={{ fontSize: wide ? 22 : 18 }}>🇲🇽</span>
               <span style={{ fontSize: wide ? 16 : 13, color: "#7a93b0", fontWeight: 600 }}>Tippspiel</span>
-              {fbUrl && <span style={{ fontSize: 9, color: "#16a34a", marginLeft: 4 }}>● Sync</span>}
+              {connected && <span style={{ fontSize: 9, color: "#16a34a", marginLeft: 4 }}>● Live</span>}
+              {!connected && <span style={{ fontSize: 9, color: "#d97706", marginLeft: 4 }}>● Offline</span>}
             </div>
             {lastUpdate && (
               <div style={{ fontSize: 8, color: "#4a6585" }}>
@@ -828,25 +835,19 @@ export default function App() {
               );
             })}
 
-            {/* Firebase */}
-            <div style={{ marginTop: 20, fontSize: 11, color: "#c8a84e", fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>FIREBASE SYNC</div>
+            {/* Sync Status */}
+            <div style={{ marginTop: 20, fontSize: 11, color: "#c8a84e", fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>SYNCHRONISIERUNG</div>
             <div style={S.card}>
-              <div style={{ fontSize: 11, color: "#8899aa", marginBottom: 8 }}>
-                Verbinde Firebase Realtime Database, damit alle Mitspieler synchron tippen.
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                <div style={{ width: 10, height: 10, borderRadius: 5, background: connected ? "#16a34a" : "#d97706" }}></div>
+                <span style={{ fontSize: 13, fontWeight: 700, color: connected ? "#16a34a" : "#d97706" }}>{connected ? "Live verbunden" : "Offline"}</span>
               </div>
-              <div style={{ fontSize: 10, color: "#4a6585", marginBottom: 4 }}>Datenbank-URL (ohne /.json):</div>
-              <input value={fbInput} onChange={e => setFbInput(e.target.value)}
-                placeholder="https://dein-projekt.firebaseio.com/tippspiel"
-                style={{ width: "100%", padding: "7px 8px", background: "#0f1c30", color: "#c8a84e", border: "1px solid #253550", borderRadius: 6, fontSize: 11, boxSizing: "border-box", outline: "none", marginBottom: 6 }} />
-              <div style={{ display: "flex", gap: 6 }}>
-                <button onClick={saveFbConfig} style={{ flex: 1, padding: "8px 0", background: "#c8a84e", color: "#0b1525", border: "none", borderRadius: 6, fontWeight: 700, fontSize: 11, cursor: "pointer" }}>
-                  Verbinden
-                </button>
-                <button onClick={syncPull} disabled={!fbUrl} style={{ flex: 1, padding: "8px 0", background: "#1a2d48", color: fbUrl ? "#50b8e0" : "#3a5070", border: "1px solid #253550", borderRadius: 6, fontWeight: 700, fontSize: 11, cursor: "pointer", opacity: fbUrl ? 1 : 0.5 }}>
-                  Vom Server laden
-                </button>
+              <div style={{ fontSize: 11, color: "#8899aa", lineHeight: 1.6 }}>
+                {connected
+                  ? "Alle Tipps werden automatisch in Echtzeit synchronisiert. Wenn ein Mitspieler tippt, siehst du es sofort."
+                  : "Keine Verbindung zu Firebase. Tipps werden lokal gespeichert und beim nächsten Verbindungsaufbau synchronisiert."
+                }
               </div>
-              {syncMsg && <div style={{ marginTop: 6, fontSize: 10, color: "#50b8e0", textAlign: "center" }}>{syncMsg}</div>}
             </div>
           </div>
         )}
