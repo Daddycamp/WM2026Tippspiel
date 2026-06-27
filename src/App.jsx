@@ -1,5 +1,15 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 
+function useWidth() {
+  const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 400);
+  useEffect(() => {
+    const h = () => setW(window.innerWidth);
+    window.addEventListener("resize", h);
+    return () => window.removeEventListener("resize", h);
+  }, []);
+  return w;
+}
+
 /* ── Teams ── */
 const TEAMS = {
   MEX: { n: "Mexiko", f: "🇲🇽" }, ZAF: { n: "Südafrika", f: "🇿🇦" },
@@ -126,7 +136,47 @@ const BONUS = { champion: 10, boot: 8, group: 5 };
 const COLORS = ["#c084e0", "#e06050", "#50b8e0", "#6dd468", "#c8a84e", "#e09050", "#50e0b0", "#e07098"];
 const STORE_KEY = "wm26tip6";
 const STORE_FB = "wm26fb6";
+const STORE_RESULTS = "wm26res";
 const MATCH_DAYS = [...new Set(MATCHES.map(m => m.dl))].sort();
+
+/* Openfootball team name mapping */
+const NAME_MAP = {
+  "Mexico":"MEX","South Africa":"ZAF","South Korea":"KOR","Korea Republic":"KOR",
+  "Czech Republic":"CZE","Czechia":"CZE","Canada":"CAN","Switzerland":"SUI",
+  "Qatar":"QAT","Bosnia and Herzegovina":"BIH","Bosnia-Herzegovina":"BIH",
+  "Brazil":"BRA","Morocco":"MAR","Scotland":"SCO","Haiti":"HAI",
+  "United States":"USA","USA":"USA","Australia":"AUS","Paraguay":"PAR",
+  "Turkey":"TUR","Germany":"GER","Ecuador":"ECU",
+  "Ivory Coast":"CIV","Curacao":"CUR","Netherlands":"NED","Japan":"JPN",
+  "Sweden":"SWE","Tunisia":"TUN","Belgium":"BEL","Iran":"IRN","IR Iran":"IRN",
+  "Egypt":"EGY","New Zealand":"NZL","Spain":"ESP","Uruguay":"URU",
+  "Saudi Arabia":"KSA","Cape Verde":"CPV","Cabo Verde":"CPV",
+  "France":"FRA","Senegal":"SEN","Iraq":"IRQ","Norway":"NOR",
+  "Argentina":"ARG","Algeria":"ALG","Austria":"AUT","Jordan":"JOR",
+  "Portugal":"POR","Colombia":"COL","Uzbekistan":"UZB",
+  "DR Congo":"COD","Congo DR":"COD",
+  "England":"ENG","Croatia":"CRO","Ghana":"GHA","Panama":"PAN",
+};
+
+const RESULTS_URL = "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json";
+
+async function fetchLiveResults() {
+  try {
+    const r = await fetch(RESULTS_URL);
+    if (!r.ok) return null;
+    const data = await r.json();
+    const results = {};
+    (data.matches || []).forEach(m => {
+      if (!m.score || !m.score.ft) return;
+      const t1 = NAME_MAP[m.team1];
+      const t2 = NAME_MAP[m.team2];
+      if (!t1 || !t2) return;
+      const match = MATCHES.find(x => x.h === t1 && x.a === t2);
+      if (match) results[match.id] = m.score.ft;
+    });
+    return results;
+  } catch (e) { return null; }
+}
 
 const DEFAULT_DATA = {
   players: [
@@ -191,6 +241,8 @@ function standings(groupName) {
 
 /* ── Main App ── */
 export default function App() {
+  const screenW = useWidth();
+  const wide = screenW >= 768;
   const [data, setData] = useState(null);
   const [tab, setTab] = useState("tippen");
   const [grp, setGrp] = useState("E");
@@ -201,6 +253,37 @@ export default function App() {
   const [fbUrl, setFbUrl] = useState("");
   const [fbInput, setFbInput] = useState("");
   const [syncMsg, setSyncMsg] = useState("");
+
+  const [liveResults, setLiveResults] = useState({});
+  const [lastUpdate, setLastUpdate] = useState(null);
+
+  useEffect(() => {
+    function applyResults(results) {
+      Object.entries(results).forEach(function(entry) {
+        var m = MATCHES.find(function(x) { return x.id === entry[0]; });
+        if (m && entry[1]) m.r = entry[1];
+      });
+    }
+    async function loadResults() {
+      try {
+        var cached = { value: localStorage.getItem(STORE_RESULTS) };
+        if (cached && cached.value) {
+          var parsed = JSON.parse(cached.value);
+          if (parsed.results) { applyResults(parsed.results); setLiveResults(parsed.results); }
+          if (parsed.ts) setLastUpdate(new Date(parsed.ts));
+        }
+      } catch (e) {}
+      var fresh = await fetchLiveResults();
+      if (fresh && Object.keys(fresh).length > 0) {
+        applyResults(fresh);
+        setLiveResults(fresh);
+        var now = new Date();
+        setLastUpdate(now);
+        try { localStorage.setItem(STORE_RESULTS, JSON.stringify({ results: fresh, ts: now.toISOString() })); } catch (e) {}
+      }
+    }
+    loadResults();
+  }, []);
 
   useEffect(() => {
     async function init() {
@@ -353,7 +436,7 @@ export default function App() {
   };
 
   if (!data) return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#0b1525", color: "#c8a84e" }}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#0f1c30", color: "#c8a84e" }}>
       Laden...
     </div>
   );
@@ -361,14 +444,14 @@ export default function App() {
   const groupMatches = MATCHES.filter(m => m.g === grp);
   const jokersUsed = act ? Object.keys(act.jokers || {}).filter(k => (act.jokers || {})[k]).length : 0;
   const S = {
-    card: { background: "#111d30", borderRadius: 10, padding: "10px 12px", marginBottom: 8 },
-    pill: { fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 4 },
-    input: { width: 38, height: 34, textAlign: "center", fontSize: 16, fontWeight: 800, border: "2px solid #253550", borderRadius: 6, background: "#0b1525", color: "#c8a84e", outline: "none" },
-    inputLocked: { width: 38, height: 34, textAlign: "center", fontSize: 16, fontWeight: 800, border: "2px solid #253550", borderRadius: 6, background: "#0b1525", color: "#556677", outline: "none", opacity: 0.45 },
+    card: { background: "#1a2d48", borderRadius: wide ? 12 : 10, padding: wide ? "14px 18px" : "10px 12px", marginBottom: wide ? 10 : 8 },
+    pill: { fontSize: wide ? 12 : 10, fontWeight: 700, padding: wide ? "3px 10px" : "2px 7px", borderRadius: 4 },
+    input: { width: wide ? 48 : 38, height: wide ? 42 : 34, textAlign: "center", fontSize: wide ? 20 : 16, fontWeight: 800, border: "2px solid #253550", borderRadius: 6, background: "#0f1c30", color: "#c8a84e", outline: "none" },
+    inputLocked: { width: wide ? 48 : 38, height: wide ? 42 : 34, textAlign: "center", fontSize: wide ? 20 : 16, fontWeight: 800, border: "2px solid #253550", borderRadius: 6, background: "#0f1c30", color: "#556677", outline: "none", opacity: 0.45 },
   };
 
   const tabBtn = (key) => ({
-    flex: 1, padding: "7px 0", fontSize: 10, fontWeight: 700, border: "none", cursor: "pointer",
+    flex: 1, padding: wide ? "10px 0" : "7px 0", fontSize: wide ? 13 : 10, fontWeight: 700, border: "none", cursor: "pointer",
     background: tab === key ? "#c8a84e" : "transparent", color: tab === key ? "#0b1525" : "#6688aa",
   });
 
@@ -392,7 +475,7 @@ export default function App() {
             {m.r && <span style={{ ...S.pill, background: "#1a3050", color: "#fff" }}>Erg: {m.r[0]}:{m.r[1]}</span>}
             {!m.r && !lk && (
               <button onClick={() => toggleJoker(m.id)} disabled={!jk && jokersUsed >= MAX_JOKERS}
-                style={{ ...S.pill, background: jk ? "#c8a84e" : "#152238", color: jk ? "#0b1525" : "#6688aa", border: "none", cursor: "pointer", opacity: (!jk && jokersUsed >= MAX_JOKERS) ? 0.35 : 1 }}>
+                style={{ ...S.pill, background: jk ? "#c8a84e" : "#1a2d48", color: jk ? "#0b1525" : "#6688aa", border: "none", cursor: "pointer", opacity: (!jk && jokersUsed >= MAX_JOKERS) ? 0.35 : 1 }}>
                 🃏{jk ? " ✓" : ""}
               </button>
             )}
@@ -428,7 +511,7 @@ export default function App() {
           </div>
         )}
         {cmpId === m.id && (
-          <div style={{ marginTop: 5, padding: "5px 7px", background: "#0b1525", borderRadius: 6 }}>
+          <div style={{ marginTop: 5, padding: "5px 7px", background: "#0f1c30", borderRadius: 6 }}>
             {data.players.map(pl => {
               const t2 = (pl.tips || {})[m.id];
               const hasTip = t2 && t2.h != null && t2.a != null;
@@ -454,16 +537,35 @@ export default function App() {
   };
 
   return (
-    <div style={{ fontFamily: "'Inter',-apple-system,sans-serif", background: "#0b1525", minHeight: "100vh", color: "#ddd8cc", maxWidth: 520, margin: "0 auto" }}>
+    <div style={{ fontFamily: "'Inter',-apple-system,sans-serif", background: "#142236", minHeight: "100vh", color: "#ddd8cc", maxWidth: wide ? 960 : 520, margin: "0 auto" }}>
       {/* Header */}
-      <div style={{ background: "linear-gradient(135deg,#162840,#0b1525)", padding: "14px 12px 8px", borderBottom: "2px solid #c8a84e", position: "sticky", top: 0, zIndex: 20, boxShadow: "0 4px 20px #00000066" }}>
+      <div style={{ background: "linear-gradient(135deg,#1a3352,#132035)", padding: wide ? "18px 24px 12px" : "14px 12px 8px", borderBottom: "2px solid #c8a84e", position: "sticky", top: 0, zIndex: 20, boxShadow: "0 4px 20px #00000066" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
           <div>
-            <div style={{ fontSize: 9, letterSpacing: 3, color: "#c8a84e", textTransform: "uppercase" }}>FIFA World Cup 2026</div>
-            <div style={{ fontSize: 19, fontWeight: 800, color: "#fff" }}>
-              🏆 Tippspiel
-              {fbUrl && <span style={{ fontSize: 9, color: "#16a34a", marginLeft: 6 }}>● Sync</span>}
+            <div style={{ fontSize: wide ? 18 : 14, fontWeight: 800, color: "#c8a84e", letterSpacing: 0.5, lineHeight: 1.3 }}>FIFA Fußballweltmeisterschaft</div>
+            <div style={{ display: "flex", alignItems: "center", gap: wide ? 8 : 6, marginTop: 2 }}>
+              <span style={{ fontSize: wide ? 28 : 22, fontWeight: 900, color: "#fff" }}>2026</span>
+              <span style={{ fontSize: wide ? 22 : 18 }}>🇺🇸</span>
+              <span style={{ fontSize: wide ? 22 : 18 }}>🇨🇦</span>
+              <span style={{ fontSize: wide ? 22 : 18 }}>🇲🇽</span>
+              <span style={{ fontSize: wide ? 16 : 13, color: "#7a93b0", fontWeight: 600 }}>Tippspiel</span>
+              {fbUrl && <span style={{ fontSize: 9, color: "#16a34a", marginLeft: 4 }}>● Sync</span>}
             </div>
+            {lastUpdate && (
+              <div style={{ fontSize: 8, color: "#4a6585" }}>
+                Ergebnisse: {lastUpdate.toLocaleDateString("de-DE")}
+                <button onClick={async () => {
+                  var fresh = await fetchLiveResults();
+                  if (fresh && Object.keys(fresh).length > 0) {
+                    Object.entries(fresh).forEach(function(e) { var m = MATCHES.find(function(x) { return x.id === e[0]; }); if (m && e[1]) m.r = e[1]; });
+                    setLiveResults(fresh); var now = new Date(); setLastUpdate(now);
+                    try { localStorage.setItem(STORE_RESULTS, JSON.stringify({ results: fresh, ts: now.toISOString() })); } catch (ex) {}
+                  }
+                }} style={{ marginLeft: 6, fontSize: 8, color: "#50b8e0", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>
+                  Aktualisieren
+                </button>
+              </div>
+            )}
           </div>
           {act && (
             <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
@@ -482,7 +584,7 @@ export default function App() {
               <button key={p.id} onClick={() => save({ ...data, aid: p.id })} style={{
                 padding: "3px 9px", borderRadius: 12, fontSize: 10, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap",
                 border: data.aid === p.id ? "2px solid " + p.color : "2px solid transparent",
-                background: data.aid === p.id ? p.color + "22" : "#152238",
+                background: data.aid === p.id ? p.color + "22" : "#1a2d48",
                 color: data.aid === p.id ? p.color : "#556677",
               }}>{p.name}</button>
             ))}
@@ -496,7 +598,7 @@ export default function App() {
         </div>
       </div>
 
-      <div style={{ padding: "0 10px 80px" }}>
+      <div style={{ padding: wide ? "0 24px 80px" : "0 10px 80px" }}>
 
         {/* ═══ TIPPEN ═══ */}
         {tab === "tippen" && act && (
@@ -510,7 +612,7 @@ export default function App() {
                 return (
                   <button key={g.name} onClick={() => setGrp(g.name)} style={{
                     padding: "6px 0", borderRadius: 6, fontSize: 12, fontWeight: 700, border: "none", cursor: "pointer", position: "relative",
-                    background: grp === g.name ? "#c8a84e" : "#152238", color: grp === g.name ? "#0b1525" : "#6688aa",
+                    background: grp === g.name ? "#c8a84e" : "#1a2d48", color: grp === g.name ? "#0b1525" : "#6688aa",
                   }}>
                     {g.name}
                     {done === 6 && <span style={{ position: "absolute", top: -4, right: -2, fontSize: 8, color: "#16a34a" }}>✓</span>}
@@ -520,34 +622,40 @@ export default function App() {
             </div>
 
             {/* Group Table */}
-            <div style={{ ...S.card, padding: 8 }}>
-              <div style={{ fontSize: 10, color: "#c8a84e", fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>GRUPPE {grp}</div>
-              <div style={{ display: "grid", gridTemplateColumns: "22px 1fr 24px 24px 24px 24px 24px 24px 28px", fontSize: 8, color: "#4a6585", fontWeight: 700, paddingBottom: 4, borderBottom: "1px solid #253550" }}>
-                <span></span><span>Team</span>
-                <span style={{ textAlign: "center" }}>Sp</span><span style={{ textAlign: "center" }}>S</span>
-                <span style={{ textAlign: "center" }}>U</span><span style={{ textAlign: "center" }}>N</span>
-                <span style={{ textAlign: "center" }}>T+</span><span style={{ textAlign: "center" }}>T-</span>
-                <span style={{ textAlign: "center", color: "#c8a84e" }}>Pkt</span>
-              </div>
-              {standings(grp).map((s, i) => (
-                <div key={s.key} style={{ display: "grid", gridTemplateColumns: "22px 1fr 24px 24px 24px 24px 24px 24px 28px", padding: "5px 0", borderBottom: "1px solid #1a2d4622", alignItems: "center" }}>
-                  <span style={{ fontSize: 16 }}>{TEAMS[s.key].f}</span>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: i < 2 ? "#e8e4dc" : "#8899aa" }}>{TEAMS[s.key].n}</span>
-                  <span style={{ textAlign: "center", fontSize: 11, color: "#6688aa" }}>{s.mp}</span>
-                  <span style={{ textAlign: "center", fontSize: 11, color: "#16a34a" }}>{s.w}</span>
-                  <span style={{ textAlign: "center", fontSize: 11, color: "#d97706" }}>{s.d}</span>
-                  <span style={{ textAlign: "center", fontSize: 11, color: "#dc2626" }}>{s.l}</span>
-                  <span style={{ textAlign: "center", fontSize: 11, color: "#8899aa" }}>{s.gf}</span>
-                  <span style={{ textAlign: "center", fontSize: 11, color: "#8899aa" }}>{s.ga}</span>
-                  <span style={{ textAlign: "center", fontSize: 13, fontWeight: 800, color: "#c8a84e" }}>{s.p}</span>
+            <div style={{ display: wide ? "grid" : "block", gridTemplateColumns: wide ? "1fr 1fr" : "1fr", gap: wide ? 20 : 0, alignItems: "start" }}>
+              <div>
+                <div style={{ ...S.card, padding: wide ? 14 : 8 }}>
+                  <div style={{ fontSize: wide ? 13 : 10, color: "#c8a84e", fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>GRUPPE {grp}</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "22px 1fr 28px 28px 28px 28px 28px 28px 32px", fontSize: wide ? 10 : 8, color: "#4a6585", fontWeight: 700, paddingBottom: 4, borderBottom: "1px solid #253550" }}>
+                    <span></span><span>Team</span>
+                    <span style={{ textAlign: "center" }}>Sp</span><span style={{ textAlign: "center" }}>S</span>
+                    <span style={{ textAlign: "center" }}>U</span><span style={{ textAlign: "center" }}>N</span>
+                    <span style={{ textAlign: "center" }}>T+</span><span style={{ textAlign: "center" }}>T-</span>
+                    <span style={{ textAlign: "center", color: "#c8a84e" }}>Pkt</span>
+                  </div>
+                  {standings(grp).map((s, i) => (
+                    <div key={s.key} style={{ display: "grid", gridTemplateColumns: "22px 1fr 28px 28px 28px 28px 28px 28px 32px", padding: wide ? "7px 0" : "5px 0", borderBottom: "1px solid #1a2d4622", alignItems: "center" }}>
+                      <span style={{ fontSize: wide ? 20 : 16 }}>{TEAMS[s.key].f}</span>
+                      <span style={{ fontSize: wide ? 14 : 11, fontWeight: 700, color: i < 2 ? "#e8e4dc" : "#8899aa" }}>{TEAMS[s.key].n}</span>
+                      <span style={{ textAlign: "center", fontSize: wide ? 13 : 11, color: "#6688aa" }}>{s.mp}</span>
+                      <span style={{ textAlign: "center", fontSize: wide ? 13 : 11, color: "#16a34a" }}>{s.w}</span>
+                      <span style={{ textAlign: "center", fontSize: wide ? 13 : 11, color: "#d97706" }}>{s.d}</span>
+                      <span style={{ textAlign: "center", fontSize: wide ? 13 : 11, color: "#dc2626" }}>{s.l}</span>
+                      <span style={{ textAlign: "center", fontSize: wide ? 13 : 11, color: "#8899aa" }}>{s.gf}</span>
+                      <span style={{ textAlign: "center", fontSize: wide ? 13 : 11, color: "#8899aa" }}>{s.ga}</span>
+                      <span style={{ textAlign: "center", fontSize: wide ? 16 : 13, fontWeight: 800, color: "#c8a84e" }}>{s.p}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-
-            <div style={{ fontSize: 10, color: "#6688aa", marginBottom: 6, display: "flex", justifyContent: "space-between" }}>
-              <span>🃏 Joker: {jokersUsed}/{MAX_JOKERS}</span><span>= doppelte Punkte</span>
+                <div style={{ fontSize: wide ? 12 : 10, color: "#6688aa", marginBottom: 6, display: "flex", justifyContent: "space-between" }}>
+                  <span>🃏 Joker: {jokersUsed}/{MAX_JOKERS}</span><span>= doppelte Punkte</span>
+                </div>
+              </div>
+              <div>
             </div>
             {groupMatches.map(renderMatch)}
+              </div>
+            </div>
           </div>
         )}
         {tab === "tippen" && !act && (
@@ -559,7 +667,8 @@ export default function App() {
         {/* ═══ RANKING ═══ */}
         {tab === "ranking" && (
           <div>
-            <div style={{ marginTop: 12, marginBottom: 6, fontSize: 11, color: "#c8a84e", fontWeight: 700, letterSpacing: 1 }}>RANGLISTE</div>
+            <div style={{ marginTop: 12, marginBottom: 6, fontSize: wide ? 14 : 11, color: "#c8a84e", fontWeight: 700, letterSpacing: 1 }}>RANGLISTE</div>
+            <div style={{ display: wide ? "grid" : "block", gridTemplateColumns: wide ? "1fr 1fr" : "1fr", gap: wide ? 10 : 0 }}>
             {ranks.map((p, i) => (
               <div key={p.id} style={{ ...S.card, display: "flex", alignItems: "center", gap: 8, border: i === 0 && p.tot > 0 ? "1px solid #c8a84e44" : "1px solid transparent" }}>
                 <div style={{ fontSize: 17, fontWeight: 900, color: i === 0 ? "#c8a84e" : i === 1 ? "#aab8cc" : i === 2 ? "#b87333" : "#556677", minWidth: 22, textAlign: "center" }}>{i + 1}.</div>
@@ -574,13 +683,15 @@ export default function App() {
                 </div>
               </div>
             ))}
+            </div>
           </div>
         )}
 
         {/* ═══ STATS ═══ */}
         {tab === "stats" && (
           <div>
-            <div style={{ marginTop: 12, fontSize: 11, color: "#c8a84e", fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>STATISTIKEN</div>
+            <div style={{ marginTop: 12, fontSize: wide ? 14 : 11, color: "#c8a84e", fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>STATISTIKEN</div>
+            <div style={{ display: wide ? "grid" : "block", gridTemplateColumns: wide ? "1fr 1fr" : "1fr", gap: wide ? 10 : 0 }}>
             {ranks.map(p => {
               const avg = p.ev > 0 ? (p.tot / p.ev).toFixed(1) : "-";
               const rate = p.ev > 0 ? Math.round(((p.ex + p.di + p.te) / p.ev) * 100) + "%" : "-";
@@ -598,7 +709,7 @@ export default function App() {
                       { l: "Tipps", v: tipped + "/" + MATCHES.length, c: "#8899aa" },
                       { l: "Trefferq.", v: rate, c: "#50b8e0" },
                     ].map(x => (
-                      <div key={x.l} style={{ background: "#0b1525", borderRadius: 5, padding: "5px 3px", textAlign: "center" }}>
+                      <div key={x.l} style={{ background: "#0f1c30", borderRadius: 5, padding: "5px 3px", textAlign: "center" }}>
                         <div style={{ fontSize: 14, fontWeight: 800, color: x.c }}>{x.v}</div>
                         <div style={{ fontSize: 7, color: "#556677" }}>{x.l}</div>
                       </div>
@@ -607,8 +718,9 @@ export default function App() {
                 </div>
               );
             })}
+            </div>
 
-            <div style={{ marginTop: 14, fontSize: 11, color: "#c8a84e", fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>BESTER DES TAGES</div>
+            <div style={{ marginTop: 14, fontSize: wide ? 14 : 11, color: "#c8a84e", fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>BESTER DES TAGES</div>
             {MATCH_DAYS.filter(dl => bestPerDay[dl]).map(dl => {
               const b = bestPerDay[dl];
               return (
@@ -629,22 +741,22 @@ export default function App() {
             <div style={{ marginTop: 12, fontSize: 11, color: "#c8a84e", fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>TURNIERTIPPS - {act.name}</div>
             {[
               { key: "champion", icon: "🏆", label: "Weltmeister (+" + BONUS.champion + ")", type: "team" },
-              { key: "boot", icon: "👟", label: "Torschuetzenkoenig (+" + BONUS.boot + ")", type: "text" },
+              { key: "boot", icon: "👟", label: "Torschützenkönig (+" + BONUS.boot + ")", type: "text" },
               { key: "best", icon: "⭐", label: "Bestes Gruppenteam (+" + BONUS.group + ")", type: "team" },
             ].map(x => (
               <div key={x.key} style={S.card}>
                 <div style={{ fontSize: 11, fontWeight: 700, color: "#fff", marginBottom: 6 }}>{x.icon} {x.label}</div>
                 {x.type === "team" ? (
                   <select value={(act.tt || {})[x.key] || ""} onChange={e => setTT(x.key, e.target.value)}
-                    style={{ width: "100%", padding: "7px 8px", background: "#0b1525", color: "#c8a84e", border: "1px solid #253550", borderRadius: 6, fontSize: 12 }}>
-                    <option value="">Auswaehlen</option>
+                    style={{ width: "100%", padding: "7px 8px", background: "#0f1c30", color: "#c8a84e", border: "1px solid #253550", borderRadius: 6, fontSize: 12 }}>
+                    <option value="">Auswählen</option>
                     {TEAM_KEYS.map(k => (
                       <option key={k} value={k}>{TEAMS[k].f} {TEAMS[k].n}</option>
                     ))}
                   </select>
                 ) : (
                   <input value={(act.tt || {})[x.key] || ""} onChange={e => setTT(x.key, e.target.value)} placeholder="Spielername..."
-                    style={{ width: "100%", padding: "7px 8px", background: "#0b1525", color: "#c8a84e", border: "1px solid #253550", borderRadius: 6, fontSize: 12, boxSizing: "border-box" }} />
+                    style={{ width: "100%", padding: "7px 8px", background: "#0f1c30", color: "#c8a84e", border: "1px solid #253550", borderRadius: 6, fontSize: 12, boxSizing: "border-box" }} />
                 )}
               </div>
             ))}
@@ -680,16 +792,16 @@ export default function App() {
             {!showAdd && (
               <button onClick={() => setShowAdd(true)}
                 style={{ ...S.card, width: "100%", textAlign: "center", cursor: "pointer", border: "1px dashed #253550", color: "#6688aa", fontSize: 12, fontWeight: 700, background: "transparent" }}>
-                + Spieler hinzufuegen
+                + Spieler hinzufügen
               </button>
             )}
             {showAdd && (
               <div style={{ ...S.card, display: "flex", gap: 6 }}>
                 <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="Name..." maxLength={20}
                   onKeyDown={e => { if (e.key === "Enter") addPlayer(); }}
-                  style={{ flex: 1, padding: "7px 8px", background: "#0b1525", color: "#c8a84e", border: "1px solid #253550", borderRadius: 6, fontSize: 12, outline: "none" }} />
+                  style={{ flex: 1, padding: "7px 8px", background: "#0f1c30", color: "#c8a84e", border: "1px solid #253550", borderRadius: 6, fontSize: 12, outline: "none" }} />
                 <button onClick={addPlayer} style={{ padding: "7px 12px", background: "#c8a84e", color: "#0b1525", border: "none", borderRadius: 6, fontWeight: 700, cursor: "pointer" }}>OK</button>
-                <button onClick={() => { setShowAdd(false); setNewName(""); }} style={{ padding: "7px 8px", background: "#253550", color: "#8899aa", border: "none", borderRadius: 6, cursor: "pointer" }}>X</button>
+                <button onClick={() => { setShowAdd(false); setNewName(""); }} style={{ padding: "7px 8px", background: "#2a4060", color: "#8899aa", border: "none", borderRadius: 6, cursor: "pointer" }}>X</button>
               </div>
             )}
 
@@ -707,7 +819,7 @@ export default function App() {
                     {delId === p.id ? (
                       <div style={{ display: "flex", gap: 4 }}>
                         <button onClick={() => removePlayer(p.id)} style={{ padding: "4px 8px", background: "#dc2626", color: "#fff", border: "none", borderRadius: 4, fontSize: 10, fontWeight: 700, cursor: "pointer" }}>Ja</button>
-                        <button onClick={() => setDelId(null)} style={{ padding: "4px 8px", background: "#253550", color: "#8899aa", border: "none", borderRadius: 4, fontSize: 10, cursor: "pointer" }}>Nein</button>
+                        <button onClick={() => setDelId(null)} style={{ padding: "4px 8px", background: "#2a4060", color: "#8899aa", border: "none", borderRadius: 4, fontSize: 10, cursor: "pointer" }}>Nein</button>
                       </div>
                     ) : (
                       <button onClick={() => setDelId(p.id)} style={{ padding: "5px 8px", background: "#dc262622", color: "#dc2626", border: "none", borderRadius: 6, fontSize: 10, fontWeight: 700, cursor: "pointer" }}>X</button>
@@ -726,12 +838,12 @@ export default function App() {
               <div style={{ fontSize: 10, color: "#4a6585", marginBottom: 4 }}>Datenbank-URL (ohne /.json):</div>
               <input value={fbInput} onChange={e => setFbInput(e.target.value)}
                 placeholder="https://dein-projekt.firebaseio.com/tippspiel"
-                style={{ width: "100%", padding: "7px 8px", background: "#0b1525", color: "#c8a84e", border: "1px solid #253550", borderRadius: 6, fontSize: 11, boxSizing: "border-box", outline: "none", marginBottom: 6 }} />
+                style={{ width: "100%", padding: "7px 8px", background: "#0f1c30", color: "#c8a84e", border: "1px solid #253550", borderRadius: 6, fontSize: 11, boxSizing: "border-box", outline: "none", marginBottom: 6 }} />
               <div style={{ display: "flex", gap: 6 }}>
                 <button onClick={saveFbConfig} style={{ flex: 1, padding: "8px 0", background: "#c8a84e", color: "#0b1525", border: "none", borderRadius: 6, fontWeight: 700, fontSize: 11, cursor: "pointer" }}>
                   Verbinden
                 </button>
-                <button onClick={syncPull} disabled={!fbUrl} style={{ flex: 1, padding: "8px 0", background: "#152238", color: fbUrl ? "#50b8e0" : "#3a5070", border: "1px solid #253550", borderRadius: 6, fontWeight: 700, fontSize: 11, cursor: "pointer", opacity: fbUrl ? 1 : 0.5 }}>
+                <button onClick={syncPull} disabled={!fbUrl} style={{ flex: 1, padding: "8px 0", background: "#1a2d48", color: fbUrl ? "#50b8e0" : "#3a5070", border: "1px solid #253550", borderRadius: 6, fontWeight: 700, fontSize: 11, cursor: "pointer", opacity: fbUrl ? 1 : 0.5 }}>
                   Vom Server laden
                 </button>
               </div>
