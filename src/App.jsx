@@ -652,8 +652,7 @@ export default function App() {
                 </div>
               </div>
               <div>
-            </div>
-            {groupMatches.map(renderMatch)}
+                {groupMatches.map(renderMatch)}
               </div>
             </div>
           </div>
