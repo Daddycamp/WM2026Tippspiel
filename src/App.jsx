@@ -159,17 +159,17 @@ const MATCHES = [
   { id: "R12", g: "R32", h: "ESP", a: "AUT", d: "02.07.", dl: "2026-07-02", r: null, label: "1H vs 2J" },
   { id: "R13", g: "R32", h: "SUI", a: "ALG", d: "03.07.", dl: "2026-07-03", r: null, label: "2B vs 3J" },
   { id: "R14", g: "R32", h: "ENG", a: "COD", d: "03.07.", dl: "2026-07-03", r: null, label: "1L vs 3K" },
-  { id: "R15", g: "R32", h: "COL", a: "CRO", d: "03.07.", dl: "2026-07-03", r: null, label: "1K vs 2L" },
-  { id: "R16", g: "R32", h: "POR", a: "GHA", d: "03.07.", dl: "2026-07-03", r: null, label: "2K vs 2L-3" },
+  { id: "R15", g: "R32", h: "COL", a: "GHA", d: "03.07.", dl: "2026-07-03", r: null, label: "1K vs 3L" },
+  { id: "R16", g: "R32", h: "POR", a: "CRO", d: "03.07.", dl: "2026-07-03", r: null, label: "2K vs 2L" },
   /* ── Round of 16 ── */
-  { id: "S01", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", r: null, label: "S. ZAF/CAN vs S. BRA/JPN" },
-  { id: "S02", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", r: null, label: "S. GER/PAR vs S. NED/MAR" },
-  { id: "S03", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", r: null, label: "S. CIV/NOR vs S. FRA/SWE" },
-  { id: "S04", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", r: null, label: "S. MEX/ECU vs S. USA/BIH" },
-  { id: "S05", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", r: null, label: "S. BEL/SEN vs S. AUS/EGY" },
-  { id: "S06", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", r: null, label: "S. ARG/CPV vs S. ESP/AUT" },
-  { id: "S07", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", r: null, label: "S. SUI/ALG vs S. ENG/COD" },
-  { id: "S08", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", r: null, label: "S. COL/CRO vs S. POR/GHA" },
+  { id: "S01", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", r: null, label: "S. ZAF/CAN vs S. NED/MAR" },
+  { id: "S02", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", r: null, label: "S. BRA/JPN vs S. CIV/NOR" },
+  { id: "S03", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", r: null, label: "S. GER/PAR vs S. FRA/SWE" },
+  { id: "S04", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", r: null, label: "S. MEX/ECU vs S. ENG/COD" },
+  { id: "S05", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", r: null, label: "S. USA/BIH vs S. BEL/SEN" },
+  { id: "S06", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", r: null, label: "S. AUS/EGY vs S. ARG/CPV" },
+  { id: "S07", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", r: null, label: "S. ESP/AUT vs S. SUI/ALG" },
+  { id: "S08", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", r: null, label: "S. COL/GHA vs S. POR/CRO" },
   /* ── Quarter-finals ── */
   { id: "Q01", g: "QF", h: "", a: "", d: "11.07.", dl: "2026-07-11", r: null, label: "VF 1" },
   { id: "Q02", g: "QF", h: "", a: "", d: "11.07.", dl: "2026-07-11", r: null, label: "VF 2" },
@@ -207,15 +207,15 @@ function matchDisplayName(m, side) {
 
 /* ── Bracket progression: winner of match X goes to match Y ── */
 const BRACKET = {
-  // R32 winners → R16
-  R01: { to: "S01", side: "h" }, R02: { to: "S01", side: "a" },
-  R03: { to: "S02", side: "h" }, R04: { to: "S02", side: "a" },
-  R05: { to: "S03", side: "h" }, R06: { to: "S03", side: "a" },
-  R07: { to: "S04", side: "h" }, R08: { to: "S04", side: "a" },
-  R09: { to: "S05", side: "h" }, R10: { to: "S05", side: "a" },
-  R11: { to: "S06", side: "h" }, R12: { to: "S06", side: "a" },
-  R13: { to: "S07", side: "h" }, R14: { to: "S07", side: "a" },
-  R15: { to: "S08", side: "h" }, R16: { to: "S08", side: "a" },
+  // R32 winners → R16 (confirmed pairings from FIFA bracket)
+  R01: { to: "S01", side: "h" }, R04: { to: "S01", side: "a" }, // ZAF/CAN vs NED/MAR
+  R02: { to: "S02", side: "h" }, R05: { to: "S02", side: "a" }, // BRA/JPN vs CIV/NOR
+  R03: { to: "S03", side: "h" }, R06: { to: "S03", side: "a" }, // GER/PAR vs FRA/SWE
+  R07: { to: "S04", side: "h" }, R14: { to: "S04", side: "a" }, // MEX/ECU vs ENG/COD
+  R08: { to: "S05", side: "h" }, R09: { to: "S05", side: "a" }, // USA/BIH vs BEL/SEN
+  R10: { to: "S06", side: "h" }, R11: { to: "S06", side: "a" }, // AUS/EGY vs ARG/CPV
+  R12: { to: "S07", side: "h" }, R13: { to: "S07", side: "a" }, // ESP/AUT vs SUI/ALG
+  R15: { to: "S08", side: "h" }, R16: { to: "S08", side: "a" }, // COL/GHA vs POR/CRO
   // R16 winners → QF
   S01: { to: "Q01", side: "h" }, S02: { to: "Q01", side: "a" },
   S03: { to: "Q02", side: "h" }, S04: { to: "Q02", side: "a" },
