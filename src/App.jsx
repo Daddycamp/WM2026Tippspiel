@@ -13,7 +13,7 @@ const firebaseApp = initializeApp({
   appId: "1:240916167247:web:3e80343e8fc24ad853483a",
 });
 const db = getDatabase(firebaseApp);
-const dbRef = ref(db, "tippspiel");
+const dbRef = ref(db, "tippspiel2");
 
 function useWidth() {
   const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 400);
@@ -186,7 +186,7 @@ const MATCHES = [
 const MAX_JOKERS = 3;
 const BONUS = { champion: 10, boot: 8, group: 5 };
 const COLORS = ["#c084e0", "#e06050", "#50b8e0", "#6dd468", "#c8a84e", "#e09050", "#50e0b0", "#e07098"];
-const STORE_KEY = "wm26tip6";
+const STORE_KEY = "wm26tip7";
 const STORE_RESULTS = "wm26res";
 const MATCH_DAYS = [...new Set(MATCHES.map(m => m.dl))].sort();
 const KO_PHASES = [
@@ -339,7 +339,7 @@ function ptsLabel(p) {
   return { text: "", color: "#555" };
 }
 
-function locked(dl) { return new Date() >= new Date(dl + "T00:00:00"); }
+function locked(dl) { return new Date() >= new Date(dl + "T16:00:00Z"); } /* 18:00 CET */
 function mkId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
 
 function playerStats(p) {
@@ -596,12 +596,14 @@ export default function App() {
     if (p != null && jk) p = p * 2;
     const label = basePts != null ? ptsLabel(basePts) : null;
 
+    const isFinished = m.r != null;
+
     return (
       <div key={m.id} style={{
         ...S.card,
         border: jk ? "1px solid #c8a84e44" : needsTip ? "1px solid #e0605066" : "1px solid transparent",
-        background: needsTip ? "#1a2d48" : S.card.background,
-        opacity: isTbd ? 0.6 : 1,
+        background: isFinished ? "#1a2d4888" : needsTip ? "#1a2d48" : S.card.background,
+        opacity: isTbd ? 0.5 : isFinished ? 0.65 : 1,
       }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
