@@ -76,8 +76,8 @@ const MATCHES = [
   { id: "A2", g: "A", h: "KOR", a: "CZE", d: "12.06.", dl: "2026-06-12", r: [2, 1] },
   { id: "A3", g: "A", h: "CZE", a: "ZAF", d: "18.06.", dl: "2026-06-18", r: [1, 1] },
   { id: "A4", g: "A", h: "MEX", a: "KOR", d: "19.06.", dl: "2026-06-19", r: [1, 0] },
-  { id: "A5", g: "A", h: "CZE", a: "MEX", d: "25.06.", dl: "2026-06-25", r: null },
-  { id: "A6", g: "A", h: "ZAF", a: "KOR", d: "25.06.", dl: "2026-06-25", r: null },
+  { id: "A5", g: "A", h: "CZE", a: "MEX", d: "25.06.", dl: "2026-06-25", r: [0, 3] },
+  { id: "A6", g: "A", h: "ZAF", a: "KOR", d: "25.06.", dl: "2026-06-25", r: [1, 0] },
   { id: "B1", g: "B", h: "CAN", a: "BIH", d: "12.06.", dl: "2026-06-12", r: [1, 1] },
   { id: "B2", g: "B", h: "QAT", a: "SUI", d: "13.06.", dl: "2026-06-13", r: [1, 1] },
   { id: "B3", g: "B", h: "SUI", a: "BIH", d: "18.06.", dl: "2026-06-18", r: [4, 1] },
@@ -94,38 +94,38 @@ const MATCHES = [
   { id: "D2", g: "D", h: "AUS", a: "TUR", d: "14.06.", dl: "2026-06-14", r: [2, 0] },
   { id: "D3", g: "D", h: "USA", a: "AUS", d: "19.06.", dl: "2026-06-19", r: [2, 0] },
   { id: "D4", g: "D", h: "TUR", a: "PAR", d: "20.06.", dl: "2026-06-20", r: [0, 1] },
-  { id: "D5", g: "D", h: "TUR", a: "USA", d: "26.06.", dl: "2026-06-26", r: null },
-  { id: "D6", g: "D", h: "PAR", a: "AUS", d: "26.06.", dl: "2026-06-26", r: null },
+  { id: "D5", g: "D", h: "TUR", a: "USA", d: "26.06.", dl: "2026-06-26", r: [3, 2] },
+  { id: "D6", g: "D", h: "PAR", a: "AUS", d: "26.06.", dl: "2026-06-26", r: [0, 0] },
   { id: "E1", g: "E", h: "GER", a: "CUR", d: "14.06.", dl: "2026-06-14", r: [7, 1] },
   { id: "E2", g: "E", h: "CIV", a: "ECU", d: "15.06.", dl: "2026-06-15", r: [1, 0] },
   { id: "E3", g: "E", h: "GER", a: "CIV", d: "20.06.", dl: "2026-06-20", r: [2, 1] },
   { id: "E4", g: "E", h: "ECU", a: "CUR", d: "21.06.", dl: "2026-06-21", r: [0, 0] },
-  { id: "E5", g: "E", h: "CUR", a: "CIV", d: "25.06.", dl: "2026-06-25", r: null },
-  { id: "E6", g: "E", h: "ECU", a: "GER", d: "25.06.", dl: "2026-06-25", r: null },
+  { id: "E5", g: "E", h: "CUR", a: "CIV", d: "25.06.", dl: "2026-06-25", r: [0, 2] },
+  { id: "E6", g: "E", h: "ECU", a: "GER", d: "25.06.", dl: "2026-06-25", r: [2, 1] },
   { id: "F1", g: "F", h: "NED", a: "JPN", d: "14.06.", dl: "2026-06-14", r: [2, 2] },
   { id: "F2", g: "F", h: "SWE", a: "TUN", d: "15.06.", dl: "2026-06-15", r: [5, 1] },
   { id: "F3", g: "F", h: "NED", a: "SWE", d: "20.06.", dl: "2026-06-20", r: [5, 1] },
   { id: "F4", g: "F", h: "TUN", a: "JPN", d: "21.06.", dl: "2026-06-21", r: [0, 4] },
-  { id: "F5", g: "F", h: "TUN", a: "NED", d: "26.06.", dl: "2026-06-26", r: null },
-  { id: "F6", g: "F", h: "JPN", a: "SWE", d: "26.06.", dl: "2026-06-26", r: null },
+  { id: "F5", g: "F", h: "TUN", a: "NED", d: "26.06.", dl: "2026-06-26", r: [1, 3] },
+  { id: "F6", g: "F", h: "JPN", a: "SWE", d: "26.06.", dl: "2026-06-26", r: [1, 1] },
   { id: "G1", g: "G", h: "BEL", a: "EGY", d: "15.06.", dl: "2026-06-15", r: [1, 1] },
   { id: "G2", g: "G", h: "IRN", a: "NZL", d: "16.06.", dl: "2026-06-16", r: [2, 2] },
   { id: "G3", g: "G", h: "BEL", a: "IRN", d: "21.06.", dl: "2026-06-21", r: [0, 0] },
   { id: "G4", g: "G", h: "NZL", a: "EGY", d: "22.06.", dl: "2026-06-22", r: [1, 3] },
-  { id: "G5", g: "G", h: "NZL", a: "BEL", d: "27.06.", dl: "2026-06-27", r: null },
-  { id: "G6", g: "G", h: "EGY", a: "IRN", d: "27.06.", dl: "2026-06-27", r: null },
+  { id: "G5", g: "G", h: "NZL", a: "BEL", d: "27.06.", dl: "2026-06-27", r: [1, 5] },
+  { id: "G6", g: "G", h: "EGY", a: "IRN", d: "27.06.", dl: "2026-06-27", r: [1, 1] },
   { id: "H1", g: "H", h: "ESP", a: "CPV", d: "15.06.", dl: "2026-06-15", r: [0, 0] },
   { id: "H2", g: "H", h: "KSA", a: "URU", d: "15.06.", dl: "2026-06-15", r: [1, 1] },
   { id: "H3", g: "H", h: "URU", a: "CPV", d: "21.06.", dl: "2026-06-21", r: [2, 2] },
   { id: "H4", g: "H", h: "ESP", a: "KSA", d: "21.06.", dl: "2026-06-21", r: [4, 0] },
   { id: "H5", g: "H", h: "CPV", a: "KSA", d: "27.06.", dl: "2026-06-27", r: null },
-  { id: "H6", g: "H", h: "URU", a: "ESP", d: "27.06.", dl: "2026-06-27", r: null },
+  { id: "H6", g: "H", h: "URU", a: "ESP", d: "27.06.", dl: "2026-06-27", r: [0, 1] },
   { id: "I1", g: "I", h: "FRA", a: "SEN", d: "16.06.", dl: "2026-06-16", r: [3, 1] },
   { id: "I2", g: "I", h: "IRQ", a: "NOR", d: "16.06.", dl: "2026-06-16", r: [1, 4] },
   { id: "I3", g: "I", h: "NOR", a: "SEN", d: "22.06.", dl: "2026-06-22", r: [3, 2] },
   { id: "I4", g: "I", h: "FRA", a: "IRQ", d: "22.06.", dl: "2026-06-22", r: [3, 0] },
-  { id: "I5", g: "I", h: "NOR", a: "FRA", d: "26.06.", dl: "2026-06-26", r: null },
-  { id: "I6", g: "I", h: "SEN", a: "IRQ", d: "26.06.", dl: "2026-06-26", r: null },
+  { id: "I5", g: "I", h: "NOR", a: "FRA", d: "26.06.", dl: "2026-06-26", r: [1, 4] },
+  { id: "I6", g: "I", h: "SEN", a: "IRQ", d: "26.06.", dl: "2026-06-26", r: [5, 0] },
   { id: "J1", g: "J", h: "ARG", a: "ALG", d: "17.06.", dl: "2026-06-17", r: [3, 0] },
   { id: "J2", g: "J", h: "AUT", a: "JOR", d: "17.06.", dl: "2026-06-17", r: [3, 1] },
   { id: "J3", g: "J", h: "ARG", a: "AUT", d: "22.06.", dl: "2026-06-22", r: [2, 0] },
@@ -136,14 +136,51 @@ const MATCHES = [
   { id: "K2", g: "K", h: "UZB", a: "COL", d: "18.06.", dl: "2026-06-18", r: [1, 3] },
   { id: "K3", g: "K", h: "POR", a: "UZB", d: "23.06.", dl: "2026-06-23", r: [5, 0] },
   { id: "K4", g: "K", h: "COL", a: "COD", d: "24.06.", dl: "2026-06-24", r: [1, 0] },
-  { id: "K5", g: "K", h: "COL", a: "POR", d: "28.06.", dl: "2026-06-28", r: null },
-  { id: "K6", g: "K", h: "COD", a: "UZB", d: "28.06.", dl: "2026-06-28", r: null },
+  { id: "K5", g: "K", h: "COL", a: "POR", d: "28.06.", dl: "2026-06-28", r: [0, 0] },
+  { id: "K6", g: "K", h: "COD", a: "UZB", d: "28.06.", dl: "2026-06-28", r: [3, 1] },
   { id: "L1", g: "L", h: "ENG", a: "CRO", d: "17.06.", dl: "2026-06-17", r: [4, 2] },
   { id: "L2", g: "L", h: "GHA", a: "PAN", d: "17.06.", dl: "2026-06-17", r: [1, 0] },
   { id: "L3", g: "L", h: "ENG", a: "GHA", d: "23.06.", dl: "2026-06-23", r: [0, 0] },
   { id: "L4", g: "L", h: "PAN", a: "CRO", d: "23.06.", dl: "2026-06-23", r: [0, 1] },
-  { id: "L5", g: "L", h: "PAN", a: "ENG", d: "27.06.", dl: "2026-06-27", r: null },
-  { id: "L6", g: "L", h: "CRO", a: "GHA", d: "27.06.", dl: "2026-06-27", r: null },
+  { id: "L5", g: "L", h: "PAN", a: "ENG", d: "27.06.", dl: "2026-06-27", r: [0, 2] },
+  { id: "L6", g: "L", h: "CRO", a: "GHA", d: "27.06.", dl: "2026-06-27", r: [2, 1] },
+  /* ── Round of 32 ── */
+  { id: "R01", g: "R32", h: "ZAF", a: "CAN", d: "28.06.", dl: "2026-06-28", r: null, label: "2A vs 2B" },
+  { id: "R02", g: "R32", h: "BRA", a: "JPN", d: "29.06.", dl: "2026-06-29", r: null, label: "1C vs 2F" },
+  { id: "R03", g: "R32", h: "GER", a: "PAR", d: "29.06.", dl: "2026-06-29", r: null, label: "1E vs 3D" },
+  { id: "R04", g: "R32", h: "NED", a: "MAR", d: "30.06.", dl: "2026-06-30", r: null, label: "1F vs 2C" },
+  { id: "R05", g: "R32", h: "CIV", a: "NOR", d: "30.06.", dl: "2026-06-30", r: null, label: "2E vs 2I" },
+  { id: "R06", g: "R32", h: "FRA", a: "SWE", d: "30.06.", dl: "2026-06-30", r: null, label: "1I vs 3F" },
+  { id: "R07", g: "R32", h: "MEX", a: "ECU", d: "01.07.", dl: "2026-07-01", r: null, label: "1A vs 3E" },
+  { id: "R08", g: "R32", h: "USA", a: "BIH", d: "01.07.", dl: "2026-07-01", r: null, label: "1D vs 3B" },
+  { id: "R09", g: "R32", h: "BEL", a: "SEN", d: "01.07.", dl: "2026-07-01", r: null, label: "1G vs 3I" },
+  { id: "R10", g: "R32", h: "AUS", a: "EGY", d: "02.07.", dl: "2026-07-02", r: null, label: "2D vs 2G" },
+  { id: "R11", g: "R32", h: "ARG", a: "CPV", d: "02.07.", dl: "2026-07-02", r: null, label: "1J vs 2H" },
+  { id: "R12", g: "R32", h: "ESP", a: "AUT", d: "02.07.", dl: "2026-07-02", r: null, label: "1H vs 2J" },
+  { id: "R13", g: "R32", h: "SUI", a: "ALG", d: "03.07.", dl: "2026-07-03", r: null, label: "2B vs 3J" },
+  { id: "R14", g: "R32", h: "ENG", a: "COD", d: "03.07.", dl: "2026-07-03", r: null, label: "1L vs 3K" },
+  { id: "R15", g: "R32", h: "COL", a: "CRO", d: "03.07.", dl: "2026-07-03", r: null, label: "1K vs 2L" },
+  { id: "R16", g: "R32", h: "POR", a: "GHA", d: "03.07.", dl: "2026-07-03", r: null, label: "2K vs 2L-3" },
+  /* ── Round of 16 ── */
+  { id: "S01", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", r: null, label: "S. ZAF/CAN vs S. BRA/JPN" },
+  { id: "S02", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", r: null, label: "S. GER/PAR vs S. NED/MAR" },
+  { id: "S03", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", r: null, label: "S. CIV/NOR vs S. FRA/SWE" },
+  { id: "S04", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", r: null, label: "S. MEX/ECU vs S. USA/BIH" },
+  { id: "S05", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", r: null, label: "S. BEL/SEN vs S. AUS/EGY" },
+  { id: "S06", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", r: null, label: "S. ARG/CPV vs S. ESP/AUT" },
+  { id: "S07", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", r: null, label: "S. SUI/ALG vs S. ENG/COD" },
+  { id: "S08", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", r: null, label: "S. COL/CRO vs S. POR/GHA" },
+  /* ── Quarter-finals ── */
+  { id: "Q01", g: "QF", h: "", a: "", d: "11.07.", dl: "2026-07-11", r: null, label: "VF 1" },
+  { id: "Q02", g: "QF", h: "", a: "", d: "11.07.", dl: "2026-07-11", r: null, label: "VF 2" },
+  { id: "Q03", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", r: null, label: "VF 3" },
+  { id: "Q04", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", r: null, label: "VF 4" },
+  /* ── Semi-finals ── */
+  { id: "H01", g: "SF", h: "", a: "", d: "15.07.", dl: "2026-07-15", r: null, label: "HF 1" },
+  { id: "H02", g: "SF", h: "", a: "", d: "16.07.", dl: "2026-07-16", r: null, label: "HF 2" },
+  /* ── 3rd place & Final ── */
+  { id: "P01", g: "FIN", h: "", a: "", d: "18.07.", dl: "2026-07-18", r: null, label: "Spiel um Platz 3" },
+  { id: "F01", g: "FIN", h: "", a: "", d: "19.07.", dl: "2026-07-19", r: null, label: "FINALE" },
 ];
 
 const MAX_JOKERS = 3;
@@ -152,6 +189,88 @@ const COLORS = ["#c084e0", "#e06050", "#50b8e0", "#6dd468", "#c8a84e", "#e09050"
 const STORE_KEY = "wm26tip6";
 const STORE_RESULTS = "wm26res";
 const MATCH_DAYS = [...new Set(MATCHES.map(m => m.dl))].sort();
+const KO_PHASES = [
+  { key: "R32", label: "Achtelfinale", count: 16 },
+  { key: "R16", label: "Achtelfinale", count: 8 },
+  { key: "QF", label: "Viertelfinale", count: 4 },
+  { key: "SF", label: "Halbfinale", count: 2 },
+  { key: "FIN", label: "Finale", count: 2 },
+];
+const GROUP_IDS = ["A","B","C","D","E","F","G","H","I","J","K","L"];
+const ALL_PHASES = [...GROUP_IDS, "R32", "R16", "QF", "SF", "FIN"];
+
+function matchDisplayName(m, side) {
+  const key = side === "h" ? m.h : m.a;
+  if (key && TEAMS[key]) return { name: TEAMS[key].n, flag: TEAMS[key].f };
+  return { name: m.label || "TBD", flag: "🏳️" };
+}
+
+/* ── Bracket progression: winner of match X goes to match Y ── */
+const BRACKET = {
+  // R32 winners → R16
+  R01: { to: "S01", side: "h" }, R02: { to: "S01", side: "a" },
+  R03: { to: "S02", side: "h" }, R04: { to: "S02", side: "a" },
+  R05: { to: "S03", side: "h" }, R06: { to: "S03", side: "a" },
+  R07: { to: "S04", side: "h" }, R08: { to: "S04", side: "a" },
+  R09: { to: "S05", side: "h" }, R10: { to: "S05", side: "a" },
+  R11: { to: "S06", side: "h" }, R12: { to: "S06", side: "a" },
+  R13: { to: "S07", side: "h" }, R14: { to: "S07", side: "a" },
+  R15: { to: "S08", side: "h" }, R16: { to: "S08", side: "a" },
+  // R16 winners → QF
+  S01: { to: "Q01", side: "h" }, S02: { to: "Q01", side: "a" },
+  S03: { to: "Q02", side: "h" }, S04: { to: "Q02", side: "a" },
+  S05: { to: "Q03", side: "h" }, S06: { to: "Q03", side: "a" },
+  S07: { to: "Q04", side: "h" }, S08: { to: "Q04", side: "a" },
+  // QF winners → SF
+  Q01: { to: "H01", side: "h" }, Q02: { to: "H01", side: "a" },
+  Q03: { to: "H02", side: "h" }, Q04: { to: "H02", side: "a" },
+  // SF winners → Final, SF losers → 3rd place
+  H01: { to: "F01", side: "h", loseTo: "P01", loseSide: "h" },
+  H02: { to: "F01", side: "a", loseTo: "P01", loseSide: "a" },
+};
+
+function getWinner(m) {
+  if (!m.r || !m.h || !m.a) return null;
+  if (m.r[0] > m.r[1]) return m.h;
+  if (m.r[1] > m.r[0]) return m.a;
+  // Draw in knockout = needs extra time/penalties, check if penalty result stored
+  // For now treat draws as unresolved
+  return null;
+}
+
+function progressBracket() {
+  Object.entries(BRACKET).forEach(function(entry) {
+    var sourceId = entry[0];
+    var target = entry[1];
+    var sourceMatch = MATCHES.find(function(m) { return m.id === sourceId; });
+    if (!sourceMatch || !sourceMatch.r) return;
+    var winner = getWinner(sourceMatch);
+    if (winner) {
+      var targetMatch = MATCHES.find(function(m) { return m.id === target.to; });
+      if (targetMatch) targetMatch[target.side] = winner;
+    }
+    // Handle losers for semi-finals → 3rd place
+    if (target.loseTo && sourceMatch.r) {
+      var loser = winner === sourceMatch.h ? sourceMatch.a : sourceMatch.h;
+      if (loser) {
+        var loserMatch = MATCHES.find(function(m) { return m.id === target.loseTo; });
+        if (loserMatch) loserMatch[target.loseSide] = loser;
+      }
+    }
+  });
+}
+
+function missingTips(player) {
+  let count = 0;
+  MATCHES.forEach(m => {
+    // Only count tippable matches (teams known or group stage)
+    const tippable = (m.h && m.a && TEAMS[m.h] && TEAMS[m.a]) || GROUP_IDS.includes(m.g);
+    if (!tippable) return;
+    const t = (player.tips || {})[m.id];
+    if (!t || t.h == null || t.a == null) count++;
+  });
+  return count;
+}
 
 /* Openfootball team name mapping */
 const NAME_MAP = {
@@ -284,11 +403,13 @@ export default function App() {
           var parsed = JSON.parse(cached);
           if (parsed.results) { applyResults(parsed.results); setLiveResults(parsed.results); }
           if (parsed.ts) setLastUpdate(new Date(parsed.ts));
+          progressBracket();
         }
       } catch (e) {}
       var fresh = await fetchLiveResults();
       if (fresh && Object.keys(fresh).length > 0) {
         applyResults(fresh);
+        progressBracket();
         setLiveResults(fresh);
         var now = new Date();
         setLastUpdate(now);
@@ -465,17 +586,30 @@ export default function App() {
     const tip = (act && act.tips && act.tips[m.id]) || { h: null, a: null };
     const lk = locked(m.dl);
     const jk = act && (act.jokers || {})[m.id];
+    const homeInfo = matchDisplayName(m, "h");
+    const awayInfo = matchDisplayName(m, "a");
+    const isTbd = !m.h || !m.a || !TEAMS[m.h] || !TEAMS[m.a];
+    const hasTip = tip.h != null && tip.a != null;
+    const needsTip = !isTbd && !hasTip && !lk;
     let p = m.r ? pts(tip.h, tip.a, m.r[0], m.r[1]) : null;
     const basePts = p;
     if (p != null && jk) p = p * 2;
     const label = basePts != null ? ptsLabel(basePts) : null;
 
     return (
-      <div key={m.id} style={{ ...S.card, border: jk ? "1px solid #c8a84e44" : "1px solid transparent" }}>
+      <div key={m.id} style={{
+        ...S.card,
+        border: jk ? "1px solid #c8a84e44" : needsTip ? "1px solid #e0605066" : "1px solid transparent",
+        background: needsTip ? "#1a2d48" : S.card.background,
+        opacity: isTbd ? 0.6 : 1,
+      }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
             <span style={{ fontSize: 10, color: "#4a6585" }}>{m.d}</span>
+            {m.label && <span style={{ fontSize: 9, color: "#7a93b0", fontWeight: 600 }}>{m.label}</span>}
             {lk && <span style={{ ...S.pill, background: "#dc262622", color: "#dc2626" }}>🔒</span>}
+            {needsTip && <span style={{ ...S.pill, background: "#e0605033", color: "#e06050" }}>Tipp fehlt!</span>}
+          </div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
             {m.r && <span style={{ ...S.pill, background: "#1a3050", color: "#fff" }}>Erg: {m.r[0]}:{m.r[1]}</span>}
@@ -490,15 +624,15 @@ export default function App() {
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
           <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 4, justifyContent: "flex-end" }}>
-            <span style={{ fontSize: 11, fontWeight: 600 }}>{TEAMS[m.h].n}</span>
-            <span style={{ fontSize: 17 }}>{TEAMS[m.h].f}</span>
+            <span style={{ fontSize: 11, fontWeight: 600 }}>{homeInfo.name}</span>
+            <span style={{ fontSize: 17 }}>{homeInfo.flag}</span>
           </div>
-          <input type="number" min="0" max="99" value={tip.h != null ? tip.h : ""} onChange={e => setTip(m.id, "h", e.target.value)} disabled={lk} style={lk ? S.inputLocked : S.input} />
+          <input type="number" min="0" max="99" value={tip.h != null ? tip.h : ""} onChange={e => setTip(m.id, "h", e.target.value)} disabled={lk || isTbd} style={lk || isTbd ? S.inputLocked : S.input} />
           <span style={{ color: "#3a5070", fontWeight: 800, fontSize: 12 }}>:</span>
-          <input type="number" min="0" max="99" value={tip.a != null ? tip.a : ""} onChange={e => setTip(m.id, "a", e.target.value)} disabled={lk} style={lk ? S.inputLocked : S.input} />
+          <input type="number" min="0" max="99" value={tip.a != null ? tip.a : ""} onChange={e => setTip(m.id, "a", e.target.value)} disabled={lk || isTbd} style={lk || isTbd ? S.inputLocked : S.input} />
           <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 4 }}>
-            <span style={{ fontSize: 17 }}>{TEAMS[m.a].f}</span>
-            <span style={{ fontSize: 11, fontWeight: 600 }}>{TEAMS[m.a].n}</span>
+            <span style={{ fontSize: 17 }}>{awayInfo.flag}</span>
+            <span style={{ fontSize: 11, fontWeight: 600 }}>{awayInfo.name}</span>
           </div>
         </div>
         {label && (
@@ -587,14 +721,22 @@ export default function App() {
 
         {data.players.length > 1 && (
           <div style={{ display: "flex", gap: 4, marginBottom: 6, overflowX: "auto", paddingBottom: 2 }}>
-            {data.players.map(p => (
-              <button key={p.id} onClick={() => save({ ...data, aid: p.id })} style={{
-                padding: "3px 9px", borderRadius: 12, fontSize: 10, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap",
-                border: data.aid === p.id ? "2px solid " + p.color : "2px solid transparent",
-                background: data.aid === p.id ? p.color + "22" : "#1a2d48",
-                color: data.aid === p.id ? p.color : "#556677",
-              }}>{p.name}</button>
-            ))}
+            {data.players.map(p => {
+              const miss = missingTips(p);
+              return (
+                <button key={p.id} onClick={() => save({ ...data, aid: p.id })} style={{
+                  padding: "3px 9px", borderRadius: 12, fontSize: 10, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap", position: "relative",
+                  border: data.aid === p.id ? "2px solid " + p.color : "2px solid transparent",
+                  background: data.aid === p.id ? p.color + "22" : "#1a2d48",
+                  color: data.aid === p.id ? p.color : "#556677",
+                }}>
+                  {p.name}
+                  {miss > 0 && (
+                    <span style={{ position: "absolute", top: -5, right: -5, background: "#e06050", color: "#fff", fontSize: 8, fontWeight: 800, borderRadius: 6, padding: "1px 4px", minWidth: 14, textAlign: "center" }}>{miss}</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         )}
 
@@ -610,25 +752,54 @@ export default function App() {
         {/* ═══ TIPPEN ═══ */}
         {tab === "tippen" && act && (
           <div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 5, margin: "10px 0" }}>
+            {/* Phase selector: Groups */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 4, margin: "10px 0 4px" }}>
               {GROUPS.map(g => {
-                const done = MATCHES.filter(m => m.g === g.name).filter(m => {
-                  const t = (act.tips || {})[m.id];
-                  return t && t.h != null && t.a != null;
-                }).length;
+                const gms = MATCHES.filter(m => m.g === g.name);
+                const done = gms.filter(m => { const t = (act.tips || {})[m.id]; return t && t.h != null && t.a != null; }).length;
+                const total = gms.length;
+                const allDone = done === total;
+                const hasMissing = done < total;
                 return (
                   <button key={g.name} onClick={() => setGrp(g.name)} style={{
                     padding: "6px 0", borderRadius: 6, fontSize: 12, fontWeight: 700, border: "none", cursor: "pointer", position: "relative",
                     background: grp === g.name ? "#c8a84e" : "#1a2d48", color: grp === g.name ? "#0b1525" : "#6688aa",
                   }}>
                     {g.name}
-                    {done === 6 && <span style={{ position: "absolute", top: -4, right: -2, fontSize: 8, color: "#16a34a" }}>✓</span>}
+                    {allDone && <span style={{ position: "absolute", top: -4, right: -2, fontSize: 8, color: "#16a34a" }}>✓</span>}
+                    {hasMissing && !allDone && <span style={{ position: "absolute", top: -5, right: -4, background: "#e06050", color: "#fff", fontSize: 7, borderRadius: 4, padding: "0 3px", fontWeight: 800 }}>{total - done}</span>}
+                  </button>
+                );
+              })}
+            </div>
+            {/* Phase selector: Knockout */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 4, marginBottom: 10 }}>
+              {[
+                { key: "R32", label: "32er" },
+                { key: "R16", label: "AF" },
+                { key: "QF", label: "VF" },
+                { key: "SF", label: "HF" },
+                { key: "FIN", label: "Finale" },
+              ].map(ph => {
+                const phMatches = MATCHES.filter(m => m.g === ph.key);
+                const tippable = phMatches.filter(m => m.h && m.a && TEAMS[m.h] && TEAMS[m.a]);
+                const tipped = tippable.filter(m => { const t = (act.tips || {})[m.id]; return t && t.h != null && t.a != null; }).length;
+                const miss = tippable.length - tipped;
+                return (
+                  <button key={ph.key} onClick={() => setGrp(ph.key)} style={{
+                    padding: "5px 0", borderRadius: 6, fontSize: wide ? 11 : 10, fontWeight: 700, border: "none", cursor: "pointer", position: "relative",
+                    background: grp === ph.key ? "#c8a84e" : "#1a2d48", color: grp === ph.key ? "#0b1525" : "#6688aa",
+                  }}>
+                    {ph.label}
+                    {miss > 0 && <span style={{ position: "absolute", top: -5, right: -4, background: "#e06050", color: "#fff", fontSize: 7, borderRadius: 4, padding: "0 3px", fontWeight: 800 }}>{miss}</span>}
+                    {tippable.length > 0 && miss === 0 && <span style={{ position: "absolute", top: -4, right: -2, fontSize: 8, color: "#16a34a" }}>✓</span>}
                   </button>
                 );
               })}
             </div>
 
-            {/* Group Table */}
+            {/* Group Table - only for group phases */}
+            {GROUP_IDS.includes(grp) && (
             <div style={{ display: wide ? "grid" : "block", gridTemplateColumns: wide ? "1fr 1fr" : "1fr", gap: wide ? 20 : 0, alignItems: "start" }}>
               <div>
                 <div style={{ ...S.card, padding: wide ? 14 : 8 }}>
@@ -662,6 +833,28 @@ export default function App() {
                 {groupMatches.map(renderMatch)}
               </div>
             </div>
+            )}
+
+            {/* KO Rounds */}
+            {!GROUP_IDS.includes(grp) && (
+              <div>
+                <div style={{ ...S.card, padding: wide ? 14 : 10, textAlign: "center" }}>
+                  <div style={{ fontSize: wide ? 16 : 13, fontWeight: 800, color: "#c8a84e", marginBottom: 4 }}>
+                    {grp === "R32" ? "Runde der letzten 32" : grp === "R16" ? "Achtelfinale" : grp === "QF" ? "Viertelfinale" : grp === "SF" ? "Halbfinale" : "Finale"}
+                  </div>
+                  <div style={{ fontSize: 10, color: "#6688aa" }}>
+                    {MATCHES.filter(m => m.g === grp && m.h && m.a && TEAMS[m.h]).length === 0
+                      ? "Teams werden nach der Gruppenphase eingetragen"
+                      : "Tipps abgeben, solange Spiele nicht gesperrt sind"
+                    }
+                  </div>
+                </div>
+                <div style={{ fontSize: wide ? 12 : 10, color: "#6688aa", marginBottom: 6, display: "flex", justifyContent: "space-between" }}>
+                  <span>🃏 Joker: {jokersUsed}/{MAX_JOKERS}</span><span>= doppelte Punkte</span>
+                </div>
+                {MATCHES.filter(m => m.g === grp).map(renderMatch)}
+              </div>
+            )}
           </div>
         )}
         {tab === "tippen" && !act && (
