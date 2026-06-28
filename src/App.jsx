@@ -145,42 +145,42 @@ const MATCHES = [
   { id: "L5", g: "L", h: "PAN", a: "ENG", d: "27.06.", dl: "2026-06-27", r: [0, 2] },
   { id: "L6", g: "L", h: "CRO", a: "GHA", d: "27.06.", dl: "2026-06-27", r: [2, 1] },
   /* ── Round of 32 ── */
-  { id: "R01", g: "R32", h: "ZAF", a: "CAN", d: "28.06.", dl: "2026-06-28", r: null, label: "2A vs 2B" },
-  { id: "R02", g: "R32", h: "BRA", a: "JPN", d: "29.06.", dl: "2026-06-29", r: null, label: "1C vs 2F" },
-  { id: "R03", g: "R32", h: "GER", a: "PAR", d: "29.06.", dl: "2026-06-29", r: null, label: "1E vs 3D" },
-  { id: "R04", g: "R32", h: "NED", a: "MAR", d: "30.06.", dl: "2026-06-30", r: null, label: "1F vs 2C" },
-  { id: "R05", g: "R32", h: "CIV", a: "NOR", d: "30.06.", dl: "2026-06-30", r: null, label: "2E vs 2I" },
-  { id: "R06", g: "R32", h: "FRA", a: "SWE", d: "30.06.", dl: "2026-06-30", r: null, label: "1I vs 3F" },
-  { id: "R07", g: "R32", h: "MEX", a: "ECU", d: "01.07.", dl: "2026-07-01", r: null, label: "1A vs 3E" },
-  { id: "R08", g: "R32", h: "USA", a: "BIH", d: "01.07.", dl: "2026-07-01", r: null, label: "1D vs 3B" },
-  { id: "R09", g: "R32", h: "BEL", a: "SEN", d: "01.07.", dl: "2026-07-01", r: null, label: "1G vs 3I" },
-  { id: "R10", g: "R32", h: "AUS", a: "EGY", d: "02.07.", dl: "2026-07-02", r: null, label: "2D vs 2G" },
-  { id: "R11", g: "R32", h: "ARG", a: "CPV", d: "02.07.", dl: "2026-07-02", r: null, label: "1J vs 2H" },
-  { id: "R12", g: "R32", h: "ESP", a: "AUT", d: "02.07.", dl: "2026-07-02", r: null, label: "1H vs 2J" },
-  { id: "R13", g: "R32", h: "SUI", a: "ALG", d: "03.07.", dl: "2026-07-03", r: null, label: "2B vs 3J" },
-  { id: "R14", g: "R32", h: "ENG", a: "COD", d: "03.07.", dl: "2026-07-03", r: null, label: "1L vs 3K" },
-  { id: "R15", g: "R32", h: "COL", a: "GHA", d: "03.07.", dl: "2026-07-03", r: null, label: "1K vs 3L" },
-  { id: "R16", g: "R32", h: "POR", a: "CRO", d: "03.07.", dl: "2026-07-03", r: null, label: "2K vs 2L" },
+  { id: "R01", g: "R32", h: "ZAF", a: "CAN", d: "28.06.", dl: "2026-06-28", t: "21:00", r: null, label: "2A vs 2B" },
+  { id: "R02", g: "R32", h: "BRA", a: "JPN", d: "29.06.", dl: "2026-06-29", t: "19:00", r: null, label: "1C vs 2F" },
+  { id: "R03", g: "R32", h: "GER", a: "PAR", d: "29.06.", dl: "2026-06-29", t: "22:30", r: null, label: "1E vs 3D" },
+  { id: "R04", g: "R32", h: "NED", a: "MAR", d: "30.06.", dl: "2026-06-30", t: "03:00", r: null, label: "1F vs 2C" },
+  { id: "R05", g: "R32", h: "CIV", a: "NOR", d: "30.06.", dl: "2026-06-30", t: "19:00", r: null, label: "2E vs 2I" },
+  { id: "R06", g: "R32", h: "FRA", a: "SWE", d: "30.06.", dl: "2026-06-30", t: "23:00", r: null, label: "1I vs 3F" },
+  { id: "R07", g: "R32", h: "MEX", a: "ECU", d: "01.07.", dl: "2026-07-01", t: "03:00", r: null, label: "1A vs 3E" },
+  { id: "R08", g: "R32", h: "USA", a: "BIH", d: "01.07.", dl: "2026-07-01", t: "02:00", r: null, label: "1D vs 3B" },
+  { id: "R09", g: "R32", h: "BEL", a: "SEN", d: "01.07.", dl: "2026-07-01", t: "22:00", r: null, label: "1G vs 3I" },
+  { id: "R10", g: "R32", h: "AUS", a: "EGY", d: "02.07.", dl: "2026-07-02", t: "20:00", r: null, label: "2D vs 2G" },
+  { id: "R11", g: "R32", h: "ARG", a: "CPV", d: "02.07.", dl: "2026-07-02", t: "00:00", r: null, label: "1J vs 2H" },
+  { id: "R12", g: "R32", h: "ESP", a: "AUT", d: "02.07.", dl: "2026-07-02", t: "21:00", r: null, label: "1H vs 2J" },
+  { id: "R13", g: "R32", h: "SUI", a: "ALG", d: "03.07.", dl: "2026-07-03", t: "05:00", r: null, label: "2B vs 3J" },
+  { id: "R14", g: "R32", h: "ENG", a: "COD", d: "03.07.", dl: "2026-07-03", t: "18:00", r: null, label: "1L vs 3K" },
+  { id: "R15", g: "R32", h: "COL", a: "GHA", d: "04.07.", dl: "2026-07-04", t: "03:30", r: null, label: "1K vs 3L" },
+  { id: "R16", g: "R32", h: "POR", a: "CRO", d: "03.07.", dl: "2026-07-03", t: "01:00", r: null, label: "2K vs 2L" },
   /* ── Round of 16 ── */
-  { id: "S01", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", r: null, label: "S. ZAF/CAN vs S. NED/MAR" },
-  { id: "S02", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", r: null, label: "S. BRA/JPN vs S. CIV/NOR" },
-  { id: "S03", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", r: null, label: "S. GER/PAR vs S. FRA/SWE" },
-  { id: "S04", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", r: null, label: "S. MEX/ECU vs S. ENG/COD" },
-  { id: "S05", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", r: null, label: "S. USA/BIH vs S. BEL/SEN" },
-  { id: "S06", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", r: null, label: "S. AUS/EGY vs S. ARG/CPV" },
-  { id: "S07", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", r: null, label: "S. ESP/AUT vs S. SUI/ALG" },
-  { id: "S08", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", r: null, label: "S. COL/GHA vs S. POR/CRO" },
+  { id: "S01", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", t: "19:00", r: null, label: "S. ZAF/CAN vs S. NED/MAR" },
+  { id: "S02", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", t: "23:00", r: null, label: "S. BRA/JPN vs S. CIV/NOR" },
+  { id: "S03", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", t: "22:00", r: null, label: "S. GER/PAR vs S. FRA/SWE" },
+  { id: "S04", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", t: "02:00", r: null, label: "S. MEX/ECU vs S. ENG/COD" },
+  { id: "S05", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", t: "21:00", r: null, label: "S. USA/BIH vs S. BEL/SEN" },
+  { id: "S06", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", t: "02:00", r: null, label: "S. AUS/EGY vs S. ARG/CPV" },
+  { id: "S07", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", t: "18:00", r: null, label: "S. ESP/AUT vs S. POR/CRO" },
+  { id: "S08", g: "R16", h: "", a: "", d: "09.07.", dl: "2026-07-09", t: "03:00", r: null, label: "S. SUI/ALG vs S. COL/GHA" },
   /* ── Quarter-finals ── */
-  { id: "Q01", g: "QF", h: "", a: "", d: "11.07.", dl: "2026-07-11", r: null, label: "VF 1" },
-  { id: "Q02", g: "QF", h: "", a: "", d: "11.07.", dl: "2026-07-11", r: null, label: "VF 2" },
-  { id: "Q03", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", r: null, label: "VF 3" },
-  { id: "Q04", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", r: null, label: "VF 4" },
+  { id: "Q01", g: "QF", h: "", a: "", d: "11.07.", dl: "2026-07-11", t: "21:00", r: null, label: "VF 1" },
+  { id: "Q02", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", t: "02:00", r: null, label: "VF 2" },
+  { id: "Q03", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", t: "23:00", r: null, label: "VF 3" },
+  { id: "Q04", g: "QF", h: "", a: "", d: "13.07.", dl: "2026-07-13", t: "03:00", r: null, label: "VF 4" },
   /* ── Semi-finals ── */
-  { id: "H01", g: "SF", h: "", a: "", d: "15.07.", dl: "2026-07-15", r: null, label: "HF 1" },
-  { id: "H02", g: "SF", h: "", a: "", d: "16.07.", dl: "2026-07-16", r: null, label: "HF 2" },
+  { id: "H01", g: "SF", h: "", a: "", d: "15.07.", dl: "2026-07-15", t: "21:00", r: null, label: "HF 1" },
+  { id: "H02", g: "SF", h: "", a: "", d: "16.07.", dl: "2026-07-16", t: "21:00", r: null, label: "HF 2" },
   /* ── 3rd place & Final ── */
-  { id: "P01", g: "FIN", h: "", a: "", d: "18.07.", dl: "2026-07-18", r: null, label: "Spiel um Platz 3" },
-  { id: "F01", g: "FIN", h: "", a: "", d: "19.07.", dl: "2026-07-19", r: null, label: "FINALE" },
+  { id: "P01", g: "FIN", h: "", a: "", d: "18.07.", dl: "2026-07-18", t: "23:00", r: null, label: "Spiel um Platz 3" },
+  { id: "F01", g: "FIN", h: "", a: "", d: "19.07.", dl: "2026-07-19", t: "21:00", r: null, label: "FINALE" },
 ];
 
 const MAX_JOKERS = 3;
@@ -214,8 +214,8 @@ const BRACKET = {
   R07: { to: "S04", side: "h" }, R14: { to: "S04", side: "a" }, // MEX/ECU vs ENG/COD
   R08: { to: "S05", side: "h" }, R09: { to: "S05", side: "a" }, // USA/BIH vs BEL/SEN
   R10: { to: "S06", side: "h" }, R11: { to: "S06", side: "a" }, // AUS/EGY vs ARG/CPV
-  R12: { to: "S07", side: "h" }, R13: { to: "S07", side: "a" }, // ESP/AUT vs SUI/ALG
-  R15: { to: "S08", side: "h" }, R16: { to: "S08", side: "a" }, // COL/GHA vs POR/CRO
+  R12: { to: "S07", side: "h" }, R16: { to: "S07", side: "a" }, // ESP/AUT vs POR/CRO
+  R13: { to: "S08", side: "h" }, R15: { to: "S08", side: "a" }, // SUI/ALG vs COL/GHA
   // R16 winners → QF
   S01: { to: "Q01", side: "h" }, S02: { to: "Q01", side: "a" },
   S03: { to: "Q02", side: "h" }, S04: { to: "Q02", side: "a" },
@@ -598,6 +598,8 @@ export default function App() {
 
     const isFinished = m.r != null;
 
+    const isKO = !GROUP_IDS.includes(m.g);
+
     return (
       <div key={m.id} style={{
         ...S.card,
@@ -607,7 +609,10 @@ export default function App() {
       }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <span style={{ fontSize: 10, color: "#4a6585" }}>{m.d}</span>
+            <span style={{ fontSize: isKO ? (wide ? 16 : 14) : 10, fontWeight: isKO ? 800 : 400, color: isKO ? "#c8a84e" : "#4a6585" }}>
+              {m.d}{m.t ? " " + m.t : ""}
+            </span>
+            {m.t && <span style={{ fontSize: isKO ? 10 : 8, color: "#6688aa" }}>MEZ</span>}
             {m.label && <span style={{ fontSize: 9, color: "#7a93b0", fontWeight: 600 }}>{m.label}</span>}
             {lk && <span style={{ ...S.pill, background: "#dc262622", color: "#dc2626" }}>🔒</span>}
             {needsTip && <span style={{ ...S.pill, background: "#e0605033", color: "#e06050" }}>Tipp fehlt!</span>}
