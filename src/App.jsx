@@ -610,7 +610,6 @@ export default function App() {
             {lk && <span style={{ ...S.pill, background: "#dc262622", color: "#dc2626" }}>🔒</span>}
             {needsTip && <span style={{ ...S.pill, background: "#e0605033", color: "#e06050" }}>Tipp fehlt!</span>}
           </div>
-          </div>
           <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
             {m.r && <span style={{ ...S.pill, background: "#1a3050", color: "#fff" }}>Erg: {m.r[0]}:{m.r[1]}</span>}
             {!m.r && !lk && (
