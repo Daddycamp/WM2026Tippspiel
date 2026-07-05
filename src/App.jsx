@@ -82,7 +82,7 @@ const MATCHES = [
   { id: "B2", g: "B", h: "QAT", a: "SUI", d: "13.06.", dl: "2026-06-13", r: [1, 1] },
   { id: "B3", g: "B", h: "SUI", a: "BIH", d: "18.06.", dl: "2026-06-18", r: [4, 1] },
   { id: "B4", g: "B", h: "CAN", a: "QAT", d: "18.06.", dl: "2026-06-18", r: [6, 0] },
-  { id: "B5", g: "B", h: "SUI", a: "CAN", d: "24.06.", dl: "2026-06-24", r: [3, 1] },
+  { id: "B5", g: "B", h: "SUI", a: "CAN", d: "24.06.", dl: "2026-06-24", r: [2, 1] },
   { id: "B6", g: "B", h: "BIH", a: "QAT", d: "24.06.", dl: "2026-06-24", r: [3, 1] },
   { id: "C1", g: "C", h: "BRA", a: "MAR", d: "13.06.", dl: "2026-06-13", r: [1, 1] },
   { id: "C2", g: "C", h: "HAI", a: "SCO", d: "14.06.", dl: "2026-06-14", r: [0, 1] },
@@ -145,42 +145,42 @@ const MATCHES = [
   { id: "L5", g: "L", h: "PAN", a: "ENG", d: "27.06.", dl: "2026-06-27", r: [0, 2] },
   { id: "L6", g: "L", h: "CRO", a: "GHA", d: "27.06.", dl: "2026-06-27", r: [2, 1] },
   /* ── Round of 32 ── */
-  { id: "R01", g: "R32", h: "ZAF", a: "CAN", d: "28.06.", dl: "2026-06-28", t: "21:00", r: null, label: "2A vs 2B" },
-  { id: "R02", g: "R32", h: "BRA", a: "JPN", d: "29.06.", dl: "2026-06-29", t: "19:00", r: null, label: "1C vs 2F" },
-  { id: "R03", g: "R32", h: "GER", a: "PAR", d: "29.06.", dl: "2026-06-29", t: "22:30", r: null, label: "1E vs 3D" },
-  { id: "R04", g: "R32", h: "NED", a: "MAR", d: "30.06.", dl: "2026-06-30", t: "03:00", r: null, label: "1F vs 2C" },
-  { id: "R05", g: "R32", h: "CIV", a: "NOR", d: "30.06.", dl: "2026-06-30", t: "19:00", r: null, label: "2E vs 2I" },
-  { id: "R06", g: "R32", h: "FRA", a: "SWE", d: "30.06.", dl: "2026-06-30", t: "23:00", r: null, label: "1I vs 3F" },
-  { id: "R07", g: "R32", h: "MEX", a: "ECU", d: "01.07.", dl: "2026-07-01", t: "03:00", r: null, label: "1A vs 3E" },
-  { id: "R08", g: "R32", h: "USA", a: "BIH", d: "01.07.", dl: "2026-07-01", t: "02:00", r: null, label: "1D vs 3B" },
-  { id: "R09", g: "R32", h: "BEL", a: "SEN", d: "01.07.", dl: "2026-07-01", t: "22:00", r: null, label: "1G vs 3I" },
-  { id: "R10", g: "R32", h: "AUS", a: "EGY", d: "02.07.", dl: "2026-07-02", t: "20:00", r: null, label: "2D vs 2G" },
-  { id: "R11", g: "R32", h: "ARG", a: "CPV", d: "02.07.", dl: "2026-07-02", t: "00:00", r: null, label: "1J vs 2H" },
-  { id: "R12", g: "R32", h: "ESP", a: "AUT", d: "02.07.", dl: "2026-07-02", t: "21:00", r: null, label: "1H vs 2J" },
-  { id: "R13", g: "R32", h: "SUI", a: "ALG", d: "03.07.", dl: "2026-07-03", t: "05:00", r: null, label: "2B vs 3J" },
-  { id: "R14", g: "R32", h: "ENG", a: "COD", d: "03.07.", dl: "2026-07-03", t: "18:00", r: null, label: "1L vs 3K" },
-  { id: "R15", g: "R32", h: "COL", a: "GHA", d: "04.07.", dl: "2026-07-04", t: "03:30", r: null, label: "1K vs 3L" },
-  { id: "R16", g: "R32", h: "POR", a: "CRO", d: "03.07.", dl: "2026-07-03", t: "01:00", r: null, label: "2K vs 2L" },
+  { id: "R01", g: "R32", h: "ZAF", a: "CAN", d: "28.06.", dl: "2026-06-28", t: "21:00", r: [0, 1], label: "2A vs 2B" , v: "Los Angeles" },
+  { id: "R02", g: "R32", h: "BRA", a: "JPN", d: "29.06.", dl: "2026-06-29", t: "19:00", r: [2, 1], label: "1C vs 2F" , v: "Houston" },
+  { id: "R03", g: "R32", h: "GER", a: "PAR", d: "29.06.", dl: "2026-06-29", t: "22:30", r: [1, 1], label: "1E vs 3D" , pw: "PAR", v: "Foxborough" },
+  { id: "R04", g: "R32", h: "NED", a: "MAR", d: "30.06.", dl: "2026-06-30", t: "03:00", r: [1, 1], label: "1F vs 2C" , pw: "MAR", v: "Monterrey" },
+  { id: "R05", g: "R32", h: "CIV", a: "NOR", d: "30.06.", dl: "2026-06-30", t: "19:00", r: [1, 2], label: "2E vs 2I" , v: "Dallas" },
+  { id: "R06", g: "R32", h: "FRA", a: "SWE", d: "30.06.", dl: "2026-06-30", t: "23:00", r: [3, 0], label: "1I vs 3F" , v: "New Jersey" },
+  { id: "R07", g: "R32", h: "MEX", a: "ECU", d: "01.07.", dl: "2026-07-01", t: "03:00", r: [2, 0], label: "1A vs 3E" , v: "Mexico City" },
+  { id: "R08", g: "R32", h: "USA", a: "BIH", d: "01.07.", dl: "2026-07-01", t: "02:00", r: [2, 0], label: "1D vs 3B" , v: "San Francisco" },
+  { id: "R09", g: "R32", h: "BEL", a: "SEN", d: "01.07.", dl: "2026-07-01", t: "22:00", r: [3, 2], label: "1G vs 3I" , v: "Seattle" },
+  { id: "R10", g: "R32", h: "AUS", a: "EGY", d: "02.07.", dl: "2026-07-02", t: "20:00", r: [1, 1], label: "2D vs 2G" , pw: "EGY", v: "Dallas" },
+  { id: "R11", g: "R32", h: "ARG", a: "CPV", d: "02.07.", dl: "2026-07-02", t: "00:00", r: [3, 2], label: "1J vs 2H" , v: "Miami" },
+  { id: "R12", g: "R32", h: "ESP", a: "AUT", d: "02.07.", dl: "2026-07-02", t: "21:00", r: [3, 0], label: "1H vs 2J" , v: "Los Angeles" },
+  { id: "R13", g: "R32", h: "SUI", a: "ALG", d: "03.07.", dl: "2026-07-03", t: "05:00", r: [2, 0], label: "2B vs 3J" , v: "Vancouver" },
+  { id: "R14", g: "R32", h: "ENG", a: "COD", d: "03.07.", dl: "2026-07-03", t: "18:00", r: [2, 1], label: "1L vs 3K" , v: "Atlanta" },
+  { id: "R15", g: "R32", h: "COL", a: "GHA", d: "04.07.", dl: "2026-07-04", t: "03:30", r: [1, 0], label: "1K vs 3L" , v: "Kansas City" },
+  { id: "R16", g: "R32", h: "POR", a: "CRO", d: "03.07.", dl: "2026-07-03", t: "01:00", r: [2, 1], label: "2K vs 2L" , v: "Toronto" },
   /* ── Round of 16 ── */
-  { id: "S01", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", t: "19:00", r: null, label: "S. ZAF/CAN vs S. NED/MAR" },
-  { id: "S02", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", t: "23:00", r: null, label: "S. BRA/JPN vs S. CIV/NOR" },
-  { id: "S03", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", t: "22:00", r: null, label: "S. GER/PAR vs S. FRA/SWE" },
-  { id: "S04", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", t: "02:00", r: null, label: "S. MEX/ECU vs S. ENG/COD" },
-  { id: "S05", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", t: "21:00", r: null, label: "S. USA/BIH vs S. BEL/SEN" },
-  { id: "S06", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", t: "02:00", r: null, label: "S. AUS/EGY vs S. ARG/CPV" },
-  { id: "S07", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", t: "18:00", r: null, label: "S. ESP/AUT vs S. POR/CRO" },
-  { id: "S08", g: "R16", h: "", a: "", d: "09.07.", dl: "2026-07-09", t: "03:00", r: null, label: "S. SUI/ALG vs S. COL/GHA" },
+  { id: "S01", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", t: "19:00", r: null, label: "S. ZAF/CAN vs S. NED/MAR" , v: "Houston" },
+  { id: "S02", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", t: "22:00", r: null, label: "S. BRA/JPN vs S. CIV/NOR" , v: "New Jersey" },
+  { id: "S03", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", t: "22:00", r: null, label: "S. GER/PAR vs S. FRA/SWE" , v: "Philadelphia" },
+  { id: "S04", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", t: "02:00", r: null, label: "S. MEX/ECU vs S. ENG/COD" , v: "Mexico City" },
+  { id: "S05", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", t: "02:00", r: null, label: "S. USA/BIH vs S. BEL/SEN" , v: "Seattle" },
+  { id: "S06", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", t: "02:00", r: null, label: "S. AUS/EGY vs S. ARG/CPV" , v: "Atlanta" },
+  { id: "S07", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", t: "21:00", r: null, label: "S. ESP/AUT vs S. POR/CRO" , v: "Dallas" },
+  { id: "S08", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", t: "22:00", r: null, label: "S. SUI/ALG vs S. COL/GHA" , v: "Vancouver" },
   /* ── Quarter-finals ── */
-  { id: "Q01", g: "QF", h: "", a: "", d: "11.07.", dl: "2026-07-11", t: "21:00", r: null, label: "VF 1" },
-  { id: "Q02", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", t: "02:00", r: null, label: "VF 2" },
-  { id: "Q03", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", t: "23:00", r: null, label: "VF 3" },
-  { id: "Q04", g: "QF", h: "", a: "", d: "13.07.", dl: "2026-07-13", t: "03:00", r: null, label: "VF 4" },
+  { id: "Q01", g: "QF", h: "", a: "", d: "11.07.", dl: "2026-07-11", t: "21:00", r: null, label: "VF 1" , v: "Boston" },
+  { id: "Q02", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", t: "02:00", r: null, label: "VF 2" , v: "Los Angeles" },
+  { id: "Q03", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", t: "23:00", r: null, label: "VF 3" , v: "Miami" },
+  { id: "Q04", g: "QF", h: "", a: "", d: "13.07.", dl: "2026-07-13", t: "03:00", r: null, label: "VF 4" , v: "Kansas City" },
   /* ── Semi-finals ── */
-  { id: "H01", g: "SF", h: "", a: "", d: "15.07.", dl: "2026-07-15", t: "21:00", r: null, label: "HF 1" },
-  { id: "H02", g: "SF", h: "", a: "", d: "16.07.", dl: "2026-07-16", t: "21:00", r: null, label: "HF 2" },
+  { id: "H01", g: "SF", h: "", a: "", d: "15.07.", dl: "2026-07-15", t: "21:00", r: null, label: "HF 1" , v: "Dallas" },
+  { id: "H02", g: "SF", h: "", a: "", d: "16.07.", dl: "2026-07-16", t: "21:00", r: null, label: "HF 2" , v: "Atlanta" },
   /* ── 3rd place & Final ── */
-  { id: "P01", g: "FIN", h: "", a: "", d: "18.07.", dl: "2026-07-18", t: "23:00", r: null, label: "Spiel um Platz 3" },
-  { id: "F01", g: "FIN", h: "", a: "", d: "19.07.", dl: "2026-07-19", t: "21:00", r: null, label: "FINALE" },
+  { id: "P01", g: "FIN", h: "", a: "", d: "18.07.", dl: "2026-07-18", t: "23:00", r: null, label: "Spiel um Platz 3" , v: "Miami" },
+  { id: "F01", g: "FIN", h: "", a: "", d: "19.07.", dl: "2026-07-19", t: "21:00", r: null, label: "FINALE" , v: "New Jersey" },
 ];
 
 const MAX_JOKERS = 3;
@@ -233,8 +233,7 @@ function getWinner(m) {
   if (!m.r || !m.h || !m.a) return null;
   if (m.r[0] > m.r[1]) return m.h;
   if (m.r[1] > m.r[0]) return m.a;
-  // Draw in knockout = needs extra time/penalties, check if penalty result stored
-  // For now treat draws as unresolved
+  if (m.pw) return m.pw;
   return null;
 }
 
@@ -339,7 +338,7 @@ function ptsLabel(p) {
   return { text: "", color: "#555" };
 }
 
-function locked(dl) { return new Date() >= new Date(dl + "T16:00:00Z"); } /* 18:00 CET */
+function locked(dl) { return false; } /* Tipps jederzeit erlaubt */
 function mkId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
 
 function playerStats(p) {
@@ -613,6 +612,7 @@ export default function App() {
               {m.d}{m.t ? " " + m.t : ""}
             </span>
             {m.t && <span style={{ fontSize: isKO ? 10 : 8, color: "#6688aa" }}>MEZ</span>}
+            {m.v && <span style={{ fontSize: wide ? 11 : 9, color: "#5a7a9a", fontStyle: "italic" }}>📍 {m.v}</span>}
             {m.label && <span style={{ fontSize: 9, color: "#7a93b0", fontWeight: 600 }}>{m.label}</span>}
             {lk && <span style={{ ...S.pill, background: "#dc262622", color: "#dc2626" }}>🔒</span>}
             {needsTip && <span style={{ ...S.pill, background: "#e0605033", color: "#e06050" }}>Tipp fehlt!</span>}
