@@ -171,13 +171,13 @@ const MATCHES = [
   { id: "S07", g: "R16", h: "ESP", a: "POR", d: "06.07.", dl: "2026-07-06", t: "21:00", r: null, label: "S. ESP/AUT vs S. POR/CRO" , v: "Dallas" },
   { id: "S08", g: "R16", h: "SUI", a: "COL", d: "07.07.", dl: "2026-07-07", t: "22:00", r: null, label: "S. SUI/ALG vs S. COL/GHA" , v: "Vancouver" },
   /* ── Quarter-finals ── */
-  { id: "Q01", g: "QF", h: "MAR", a: "FRA", d: "11.07.", dl: "2026-07-11", t: "21:00", r: null, label: "VF 1" , v: "Boston" },
-  { id: "Q02", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", t: "02:00", r: null, label: "VF 2" , v: "Los Angeles" },
-  { id: "Q03", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", t: "23:00", r: null, label: "VF 3" , v: "Miami" },
-  { id: "Q04", g: "QF", h: "", a: "", d: "13.07.", dl: "2026-07-13", t: "03:00", r: null, label: "VF 4" , v: "Kansas City" },
+  { id: "Q01", g: "QF", h: "MAR", a: "FRA", d: "09.07.", dl: "2026-07-09", t: "22:00", r: null, label: "S. MAR/FRA" , v: "Boston" },
+  { id: "Q02", g: "QF", h: "", a: "", d: "10.07.", dl: "2026-07-10", t: "21:00", r: null, label: "S. USA-BEL / ESP-POR" , v: "Los Angeles" },
+  { id: "Q03", g: "QF", h: "", a: "", d: "11.07.", dl: "2026-07-11", t: "23:00", r: null, label: "S. BRA-NOR / MEX-ENG" , v: "Miami" },
+  { id: "Q04", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", t: "03:00", r: null, label: "S. EGY-ARG / SUI-COL" , v: "Kansas City" },
   /* ── Semi-finals ── */
-  { id: "H01", g: "SF", h: "", a: "", d: "15.07.", dl: "2026-07-15", t: "21:00", r: null, label: "HF 1" , v: "Dallas" },
-  { id: "H02", g: "SF", h: "", a: "", d: "16.07.", dl: "2026-07-16", t: "21:00", r: null, label: "HF 2" , v: "Atlanta" },
+  { id: "H01", g: "SF", h: "", a: "", d: "14.07.", dl: "2026-07-14", t: "21:00", r: null, label: "HF 1" , v: "Dallas" },
+  { id: "H02", g: "SF", h: "", a: "", d: "15.07.", dl: "2026-07-15", t: "21:00", r: null, label: "HF 2" , v: "Atlanta" },
   /* ── 3rd place & Final ── */
   { id: "P01", g: "FIN", h: "", a: "", d: "18.07.", dl: "2026-07-18", t: "23:00", r: null, label: "Spiel um Platz 3" , v: "Miami" },
   { id: "F01", g: "FIN", h: "", a: "", d: "19.07.", dl: "2026-07-19", t: "21:00", r: null, label: "FINALE" , v: "New Jersey" },
@@ -216,11 +216,11 @@ const BRACKET = {
   R10: { to: "S06", side: "h" }, R11: { to: "S06", side: "a" }, // AUS/EGY vs ARG/CPV
   R12: { to: "S07", side: "h" }, R16: { to: "S07", side: "a" }, // ESP/AUT vs POR/CRO
   R13: { to: "S08", side: "h" }, R15: { to: "S08", side: "a" }, // SUI/ALG vs COL/GHA
-  // R16 winners → QF
-  S01: { to: "Q01", side: "h" }, S02: { to: "Q01", side: "a" },
-  S03: { to: "Q02", side: "h" }, S04: { to: "Q02", side: "a" },
-  S05: { to: "Q03", side: "h" }, S06: { to: "Q03", side: "a" },
-  S07: { to: "Q04", side: "h" }, S08: { to: "Q04", side: "a" },
+  // R16 winners → QF (confirmed FIFA bracket)
+  S01: { to: "Q01", side: "h" }, S03: { to: "Q01", side: "a" }, // MAR/FRA path
+  S05: { to: "Q02", side: "h" }, S07: { to: "Q02", side: "a" }, // USA-BEL / ESP-POR path
+  S02: { to: "Q03", side: "h" }, S04: { to: "Q03", side: "a" }, // BRA-NOR / MEX-ENG path
+  S06: { to: "Q04", side: "h" }, S08: { to: "Q04", side: "a" }, // EGY-ARG / SUI-COL path
   // QF winners → SF
   Q01: { to: "H01", side: "h" }, Q02: { to: "H01", side: "a" },
   Q03: { to: "H02", side: "h" }, Q04: { to: "H02", side: "a" },
@@ -338,7 +338,7 @@ function ptsLabel(p) {
   return { text: "", color: "#555" };
 }
 
-function locked(dl) { return false; } /* Tipps jederzeit erlaubt */
+function locked(dl, m) { if (!m) return false; var g = m.g; if (["A","B","C","D","E","F","G","H","I","J","K","L","R32","R16"].indexOf(g) >= 0) return true; return false; } /* Bis inkl. AF gesperrt */
 function mkId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
 
 function playerStats(p) {
@@ -529,7 +529,7 @@ export default function App() {
   const setTip = (mid, side, val) => {
     if (!act) return;
     const m = MATCHES.find(x => x.id === mid);
-    if (m && locked(m.dl)) return;
+    if (m && locked(m.dl, m)) return;
     const v = val === "" ? null : Math.max(0, Math.min(99, parseInt(val) || 0));
     const up = data.players.map(p => {
       if (p.id !== act.id) return p;
@@ -542,7 +542,7 @@ export default function App() {
   const toggleJoker = (mid) => {
     if (!act) return;
     const m = MATCHES.find(x => x.id === mid);
-    if (m && locked(m.dl)) return;
+    if (m && locked(m.dl, m)) return;
     const jk = act.jokers || {};
     const used = Object.keys(jk).filter(k => jk[k] && k !== mid).length;
     const cur = jk[mid] || false;
@@ -583,7 +583,7 @@ export default function App() {
 
   const renderMatch = (m) => {
     const tip = (act && act.tips && act.tips[m.id]) || { h: null, a: null };
-    const lk = locked(m.dl);
+    const lk = locked(m.dl, m);
     const jk = act && (act.jokers || {})[m.id];
     const homeInfo = matchDisplayName(m, "h");
     const awayInfo = matchDisplayName(m, "a");
