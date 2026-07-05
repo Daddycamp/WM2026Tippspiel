@@ -338,7 +338,7 @@ function ptsLabel(p) {
   return { text: "", color: "#555" };
 }
 
-function locked(dl, m) { if (!m) return false; var g = m.g; if (["A","B","C","D","E","F","G","H","I","J","K","L","R32","R16"].indexOf(g) >= 0) return true; return false; } /* Bis inkl. AF gesperrt */
+function locked(dl, m) { if (!m) return false; var g = m.g; if (["A","B","C","D","E","F","G","H","I","J","K","L","R32"].indexOf(g) >= 0) return true; return false; } /* Bis inkl. R32 gesperrt */
 function mkId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
 
 function playerStats(p) {
