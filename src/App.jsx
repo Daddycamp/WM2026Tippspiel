@@ -162,9 +162,9 @@ const MATCHES = [
   { id: "R15", g: "R32", h: "COL", a: "GHA", d: "04.07.", dl: "2026-07-04", t: "03:30", r: [1, 0], label: "1K vs 3L" , v: "Kansas City" },
   { id: "R16", g: "R32", h: "POR", a: "CRO", d: "03.07.", dl: "2026-07-03", t: "01:00", r: [2, 1], label: "2K vs 2L" , v: "Toronto" },
   /* ── Round of 16 ── */
-  { id: "S01", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", t: "19:00", r: null, label: "S. ZAF/CAN vs S. NED/MAR" , v: "Houston" },
+  { id: "S01", g: "R16", h: "", a: "", d: "04.07.", dl: "2026-07-04", t: "19:00", r: [0, 3], label: "S. ZAF/CAN vs S. NED/MAR" , v: "Houston" },
   { id: "S02", g: "R16", h: "", a: "", d: "05.07.", dl: "2026-07-05", t: "22:00", r: null, label: "S. BRA/JPN vs S. CIV/NOR" , v: "New Jersey" },
-  { id: "S03", g: "R16", h: "", a: "", d: "06.07.", dl: "2026-07-06", t: "22:00", r: null, label: "S. GER/PAR vs S. FRA/SWE" , v: "Philadelphia" },
+  { id: "S03", g: "R16", h: "", a: "", d: "04.07.", dl: "2026-07-04", t: "23:00", r: [0, 1], label: "S. GER/PAR vs S. FRA/SWE" , v: "Philadelphia" },
   { id: "S04", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", t: "02:00", r: null, label: "S. MEX/ECU vs S. ENG/COD" , v: "Mexico City" },
   { id: "S05", g: "R16", h: "", a: "", d: "07.07.", dl: "2026-07-07", t: "02:00", r: null, label: "S. USA/BIH vs S. BEL/SEN" , v: "Seattle" },
   { id: "S06", g: "R16", h: "", a: "", d: "08.07.", dl: "2026-07-08", t: "02:00", r: null, label: "S. AUS/EGY vs S. ARG/CPV" , v: "Atlanta" },
