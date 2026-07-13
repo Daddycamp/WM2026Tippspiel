@@ -345,7 +345,7 @@ function ptsLabel(p) {
   return { text: "", color: "#555" };
 }
 
-function locked(dl, m) { if (!m) return false; var g = m.g; if (["A","B","C","D","E","F","G","H","I","J","K","L","R32"].indexOf(g) >= 0) return true; return false; } /* Bis inkl. R32 gesperrt */
+function locked(dl, m) { if (!m) return false; var g = m.g; if (["A","B","C","D","E","F","G","H","I","J","K","L","R32","R16","QF"].indexOf(g) >= 0) return true; return false; } /* Bis inkl. VF gesperrt */
 function mkId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
 
 function playerStats(p) {
@@ -574,6 +574,7 @@ export default function App() {
     </div>
   );
 
+  progressBracket(); // Ensure bracket is filled before render
   const groupMatches = MATCHES.filter(m => m.g === grp);
   const jokersUsed = act ? Object.keys(act.jokers || {}).filter(k => (act.jokers || {})[k]).length : 0;
   const S = {
