@@ -171,16 +171,16 @@ const MATCHES = [
   { id: "S07", g: "R16", h: "ESP", a: "POR", d: "06.07.", dl: "2026-07-06", t: "21:00", r: [1, 0], label: "S. ESP/AUT vs S. POR/CRO", hl: "S. ESP/AUT", al: "S. POR/CRO" , v: "Dallas" },
   { id: "S08", g: "R16", h: "SUI", a: "COL", d: "08.07.", dl: "2026-07-07", t: "22:00", r: [0, 0], pw: "SUI", label: "S. SUI/ALG vs S. COL/GHA", hl: "S. SUI/ALG", al: "S. COL/GHA" , v: "Vancouver" },
   /* ── Quarter-finals ── */
-  { id: "Q01", g: "QF", h: "MAR", a: "FRA", d: "09.07.", dl: "2026-07-09", t: "22:00", r: null, label: "VF 1", hl: "Marokko", al: "Frankreich" , v: "Boston" },
-  { id: "Q02", g: "QF", h: "ESP", a: "BEL", d: "10.07.", dl: "2026-07-10", t: "21:00", r: null, label: "VF 2", hl: "Spanien", al: "Belgien" , v: "Los Angeles" },
-  { id: "Q03", g: "QF", h: "NOR", a: "ENG", d: "11.07.", dl: "2026-07-11", t: "23:00", r: null, label: "VF 3", hl: "Norwegen", al: "England" , v: "Miami" },
-  { id: "Q04", g: "QF", h: "ARG", a: "SUI", d: "12.07.", dl: "2026-07-12", t: "03:00", r: null, label: "VF 4", hl: "Argentinien", al: "Schweiz" , v: "Kansas City" },
+  { id: "Q01", g: "QF", h: "MAR", a: "FRA", d: "09.07.", dl: "2026-07-09", t: "22:00", r: [0, 2], label: "VF 1", hl: "Marokko", al: "Frankreich" , v: "Boston" },
+  { id: "Q02", g: "QF", h: "ESP", a: "BEL", d: "10.07.", dl: "2026-07-10", t: "21:00", r: [2, 1], label: "VF 2", hl: "Spanien", al: "Belgien" , v: "Los Angeles" },
+  { id: "Q03", g: "QF", h: "NOR", a: "ENG", d: "11.07.", dl: "2026-07-11", t: "23:00", r: [1, 2], label: "VF 3", hl: "Norwegen", al: "England" , v: "Miami" },
+  { id: "Q04", g: "QF", h: "ARG", a: "SUI", d: "12.07.", dl: "2026-07-12", t: "03:00", r: [3, 1], label: "VF 4", hl: "Argentinien", al: "Schweiz" , v: "Kansas City" },
   /* ── Semi-finals ── */
-  { id: "H01", g: "SF", h: "", a: "", d: "14.07.", dl: "2026-07-14", t: "21:00", r: null, label: "HF 1", hl: "S. VF1", al: "S. VF2" , v: "Dallas" },
-  { id: "H02", g: "SF", h: "", a: "", d: "15.07.", dl: "2026-07-15", t: "21:00", r: null, label: "HF 2", hl: "S. VF3", al: "S. VF4" , v: "Atlanta" },
+  { id: "H01", g: "SF", h: "FRA", a: "ESP", d: "14.07.", dl: "2026-07-14", t: "21:00", r: null, label: "HF 1", hl: "Frankreich", al: "Spanien" , v: "Dallas" },
+  { id: "H02", g: "SF", h: "ENG", a: "ARG", d: "15.07.", dl: "2026-07-15", t: "21:00", r: null, label: "HF 2", hl: "England", al: "Argentinien" , v: "Atlanta" },
   /* ── 3rd place & Final ── */
-  { id: "P01", g: "FIN", h: "", a: "", d: "18.07.", dl: "2026-07-18", t: "23:00", r: null, label: "Platz 3", hl: "V. HF1", al: "V. HF2" , v: "Miami" },
-  { id: "F01", g: "FIN", h: "", a: "", d: "19.07.", dl: "2026-07-19", t: "21:00", r: null, label: "FINALE", hl: "S. HF1", al: "S. HF2" , v: "New Jersey" },
+  { id: "P01", g: "FIN", h: "", a: "", d: "18.07.", dl: "2026-07-18", t: "23:00", r: null, label: "Platz 3", hl: "V. FRA/ESP", al: "V. ENG/ARG" , v: "Miami" },
+  { id: "F01", g: "FIN", h: "", a: "", d: "19.07.", dl: "2026-07-19", t: "21:00", r: null, label: "FINALE", hl: "S. FRA/ESP", al: "S. ENG/ARG" , v: "New Jersey" },
 ];
 
 const MAX_JOKERS = 3;
