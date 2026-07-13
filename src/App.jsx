@@ -171,13 +171,13 @@ const MATCHES = [
   { id: "S07", g: "R16", h: "ESP", a: "POR", d: "06.07.", dl: "2026-07-06", t: "21:00", r: [1, 0], label: "S. ESP/AUT vs S. POR/CRO", hl: "S. ESP/AUT", al: "S. POR/CRO" , v: "Dallas" },
   { id: "S08", g: "R16", h: "SUI", a: "COL", d: "08.07.", dl: "2026-07-07", t: "22:00", r: [0, 0], pw: "SUI", label: "S. SUI/ALG vs S. COL/GHA", hl: "S. SUI/ALG", al: "S. COL/GHA" , v: "Vancouver" },
   /* ── Quarter-finals ── */
-  { id: "Q01", g: "QF", h: "MAR", a: "FRA", d: "09.07.", dl: "2026-07-09", t: "22:00", r: [0, 2], label: "VF 1", hl: "Marokko", al: "Frankreich" , v: "Boston" },
-  { id: "Q02", g: "QF", h: "ESP", a: "BEL", d: "10.07.", dl: "2026-07-10", t: "21:00", r: [2, 1], label: "VF 2", hl: "Spanien", al: "Belgien" , v: "Los Angeles" },
-  { id: "Q03", g: "QF", h: "NOR", a: "ENG", d: "11.07.", dl: "2026-07-11", t: "23:00", r: [1, 2], label: "VF 3", hl: "Norwegen", al: "England" , v: "Miami" },
-  { id: "Q04", g: "QF", h: "ARG", a: "SUI", d: "12.07.", dl: "2026-07-12", t: "03:00", r: [3, 1], label: "VF 4", hl: "Argentinien", al: "Schweiz" , v: "Kansas City" },
+  { id: "Q01", g: "QF", h: "", a: "", d: "09.07.", dl: "2026-07-09", t: "22:00", r: [0, 2], label: "VF 1", hl: "Marokko", al: "Frankreich" , v: "Boston" },
+  { id: "Q02", g: "QF", h: "", a: "", d: "10.07.", dl: "2026-07-10", t: "21:00", r: [1, 2], label: "VF 2", hl: "Belgien", al: "Spanien" , v: "Los Angeles" },
+  { id: "Q03", g: "QF", h: "", a: "", d: "11.07.", dl: "2026-07-11", t: "23:00", r: [1, 2], label: "VF 3", hl: "Norwegen", al: "England" , v: "Miami" },
+  { id: "Q04", g: "QF", h: "", a: "", d: "12.07.", dl: "2026-07-12", t: "03:00", r: [3, 1], label: "VF 4", hl: "Argentinien", al: "Schweiz" , v: "Kansas City" },
   /* ── Semi-finals ── */
-  { id: "H01", g: "SF", h: "FRA", a: "ESP", d: "14.07.", dl: "2026-07-14", t: "21:00", r: null, label: "HF 1", hl: "Frankreich", al: "Spanien" , v: "Dallas" },
-  { id: "H02", g: "SF", h: "ENG", a: "ARG", d: "15.07.", dl: "2026-07-15", t: "21:00", r: null, label: "HF 2", hl: "England", al: "Argentinien" , v: "Atlanta" },
+  { id: "H01", g: "SF", h: "", a: "", d: "14.07.", dl: "2026-07-14", t: "21:00", r: null, label: "HF 1", hl: "Frankreich", al: "Spanien" , v: "Dallas" },
+  { id: "H02", g: "SF", h: "", a: "", d: "15.07.", dl: "2026-07-15", t: "21:00", r: null, label: "HF 2", hl: "England", al: "Argentinien" , v: "Atlanta" },
   /* ── 3rd place & Final ── */
   { id: "P01", g: "FIN", h: "", a: "", d: "18.07.", dl: "2026-07-18", t: "23:00", r: null, label: "Platz 3", hl: "V. FRA/ESP", al: "V. ENG/ARG" , v: "Miami" },
   { id: "F01", g: "FIN", h: "", a: "", d: "19.07.", dl: "2026-07-19", t: "21:00", r: null, label: "FINALE", hl: "S. FRA/ESP", al: "S. ENG/ARG" , v: "New Jersey" },
@@ -239,22 +239,28 @@ function getWinner(m) {
 }
 
 function progressBracket() {
+  // First pass: fill teams from bracket results
   Object.entries(BRACKET).forEach(function(entry) {
     var sourceId = entry[0];
     var target = entry[1];
     var sourceMatch = MATCHES.find(function(m) { return m.id === sourceId; });
-    if (!sourceMatch || !sourceMatch.r) return;
+    if (!sourceMatch) return;
+    // Fill teams from bracket (even without result, to propagate known teams)
     var winner = getWinner(sourceMatch);
     if (winner) {
       var targetMatch = MATCHES.find(function(m) { return m.id === target.to; });
-      if (targetMatch) targetMatch[target.side] = winner;
-    }
-    // Handle losers for semi-finals → 3rd place
-    if (target.loseTo && sourceMatch.r) {
-      var loser = winner === sourceMatch.h ? sourceMatch.a : sourceMatch.h;
-      if (loser) {
-        var loserMatch = MATCHES.find(function(m) { return m.id === target.loseTo; });
-        if (loserMatch) loserMatch[target.loseSide] = loser;
+      if (targetMatch) {
+        targetMatch[target.side] = winner;
+      }
+      // Handle losers for semi-finals → 3rd place
+      if (target.loseTo) {
+        var loser = (winner === sourceMatch.h) ? sourceMatch.a : sourceMatch.h;
+        if (loser) {
+          var loserMatch = MATCHES.find(function(m) { return m.id === target.loseTo; });
+          if (loserMatch) {
+            loserMatch[target.loseSide] = loser;
+          }
+        }
       }
     }
   });
