@@ -353,11 +353,35 @@ function playerStats(p) {
   MATCHES.forEach(m => {
     const t = (p.tips || {})[m.id];
     if (!t || t.h == null || t.a == null || !m.r) return;
-    ev++;
     const b = pts(t.h, t.a, m.r[0], m.r[1]);
-    tot += (p.jokers || {})[m.id] ? b * 2 : b;
+    if (b == null) return;
+    ev++;
+    var points = (p.jokers || {})[m.id] ? b * 2 : b;
+    tot += points;
     if (b === 4) ex++; else if (b === 3) di++; else if (b === 2) te++; else wr++;
   });
+  /* Turniertipp-Bonuspunkte */
+  var tt = p.tt || {};
+  var finalMatch = MATCHES.find(function(m) { return m.id === "F01"; });
+  if (finalMatch && finalMatch.r && finalMatch.h && finalMatch.a) {
+    var champion = getWinner(finalMatch);
+    if (champion && tt.champion === champion) tot += BONUS.champion;
+  }
+  /* Bestes Gruppenteam: most group stage points */
+  if (tt.best) {
+    var bestTeam = null;
+    var bestPts = -1;
+    TEAM_KEYS.forEach(function(tk) {
+      var teamPts = 0;
+      MATCHES.forEach(function(m) {
+        if (!GROUP_IDS.includes(m.g) || !m.r) return;
+        if (m.h === tk) { if (m.r[0] > m.r[1]) teamPts += 3; else if (m.r[0] === m.r[1]) teamPts += 1; }
+        if (m.a === tk) { if (m.r[1] > m.r[0]) teamPts += 3; else if (m.r[0] === m.r[1]) teamPts += 1; }
+      });
+      if (teamPts > bestPts) { bestPts = teamPts; bestTeam = tk; }
+    });
+    if (bestTeam && tt.best === bestTeam) tot += BONUS.group;
+  }
   return { tot, ex, di, te, wr, ev };
 }
 
