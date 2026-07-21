@@ -330,6 +330,8 @@ const DEFAULT_DATA = {
 /* ── Helpers ── */
 function pts(th, ta, rh, ra) {
   if (th == null || ta == null || rh == null || ra == null) return null;
+  th = Number(th); ta = Number(ta); rh = Number(rh); ra = Number(ra);
+  if (isNaN(th) || isNaN(ta) || isNaN(rh) || isNaN(ra)) return null;
   if (th === rh && ta === ra) return 4;
   const d = th - ta, e = rh - ra;
   if (d === e && d !== 0) return 3;
