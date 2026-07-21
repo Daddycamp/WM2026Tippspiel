@@ -187,7 +187,7 @@ const MAX_JOKERS = 3;
 const BONUS = { champion: 10, boot: 8, group: 5 };
 const COLORS = ["#c084e0", "#e06050", "#50b8e0", "#6dd468", "#c8a84e", "#e09050", "#50e0b0", "#e07098"];
 const STORE_KEY = "wm26tip7";
-const STORE_RESULTS = "wm26res";
+const STORE_RESULTS = "wm26res2";
 const MATCH_DAYS = [...new Set(MATCHES.map(m => m.dl))].sort();
 const KO_PHASES = [
   { key: "R32", label: "Achtelfinale", count: 16 },
@@ -306,12 +306,12 @@ async function fetchLiveResults() {
     const data = await r.json();
     const results = {};
     (data.matches || []).forEach(m => {
-      if (!m.score || !m.score.ft) return;
+      if (!m.score || (!m.score.ft && !m.score.et)) return;
       const t1 = NAME_MAP[m.team1];
       const t2 = NAME_MAP[m.team2];
       if (!t1 || !t2) return;
       const match = MATCHES.find(x => x.h === t1 && x.a === t2);
-      if (match) results[match.id] = m.score.ft;
+      if (match) results[match.id] = m.score.et || m.score.ft;
     });
     return results;
   } catch (e) { return null; }
@@ -425,7 +425,8 @@ export default function App() {
     function applyResults(results) {
       Object.entries(results).forEach(function(entry) {
         var m = MATCHES.find(function(x) { return x.id === entry[0]; });
-        if (m && entry[1]) m.r = entry[1];
+        /* Statische (kuratierte) Ergebnisse haben Vorrang - nie überschreiben */
+        if (m && entry[1] && m.r == null) m.r = entry[1];
       });
     }
     async function loadResults() {
