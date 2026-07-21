@@ -176,11 +176,11 @@ const MATCHES = [
   { id: "Q03", g: "QF", h: "NOR", a: "ENG", d: "11.07.", dl: "2026-07-11", t: "23:00", r: [1, 2], label: "VF 3", hl: "Norwegen", al: "England" , v: "Miami" },
   { id: "Q04", g: "QF", h: "ARG", a: "SUI", d: "12.07.", dl: "2026-07-12", t: "03:00", r: [3, 1], label: "VF 4", hl: "Argentinien", al: "Schweiz" , v: "Kansas City" },
   /* ── Semi-finals ── */
-  { id: "H01", g: "SF", h: "FRA", a: "ESP", d: "14.07.", dl: "2026-07-14", t: "21:00", r: null, label: "HF 1", hl: "Frankreich", al: "Spanien" , v: "Dallas" },
-  { id: "H02", g: "SF", h: "ENG", a: "ARG", d: "15.07.", dl: "2026-07-15", t: "21:00", r: null, label: "HF 2", hl: "England", al: "Argentinien" , v: "Atlanta" },
+  { id: "H01", g: "SF", h: "FRA", a: "ESP", d: "14.07.", dl: "2026-07-14", t: "21:00", r: [0, 2], label: "HF 1", hl: "Frankreich", al: "Spanien" , v: "Dallas" },
+  { id: "H02", g: "SF", h: "ENG", a: "ARG", d: "15.07.", dl: "2026-07-15", t: "21:00", r: [1, 2], label: "HF 2", hl: "England", al: "Argentinien" , v: "Atlanta" },
   /* ── 3rd place & Final ── */
-  { id: "P01", g: "FIN", h: "", a: "", d: "18.07.", dl: "2026-07-18", t: "23:00", r: null, label: "Platz 3", hl: "V. FRA/ESP", al: "V. ENG/ARG" , v: "Miami" },
-  { id: "F01", g: "FIN", h: "", a: "", d: "19.07.", dl: "2026-07-19", t: "21:00", r: null, label: "FINALE", hl: "S. FRA/ESP", al: "S. ENG/ARG" , v: "New Jersey" },
+  { id: "P01", g: "FIN", h: "FRA", a: "ENG", d: "18.07.", dl: "2026-07-18", t: "23:00", r: [4, 6], label: "Platz 3", hl: "Frankreich", al: "England" , v: "Miami" },
+  { id: "F01", g: "FIN", h: "ESP", a: "ARG", d: "19.07.", dl: "2026-07-19", t: "21:00", r: [1, 0], label: "FINALE", hl: "Spanien", al: "Argentinien" , v: "New Jersey" },
 ];
 
 const MAX_JOKERS = 3;
